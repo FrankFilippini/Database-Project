@@ -2,8 +2,7 @@ package project;
 
 public class Main {
     public static void main(String[] args) {
-        //new ControllerImpl();
-        System.out.println("ciao");
+        new ControllerImpl();
     }
 
 }
