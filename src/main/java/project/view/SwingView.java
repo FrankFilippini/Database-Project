@@ -16,4 +16,16 @@ public class SwingView implements View {
     public SwingView(Controller controller) {
         this.controller = controller;
     }
+
+    @Override
+    public void start() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'start'");
+    }
+
+    @Override
+    public void startConnection() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'startConnection'");
+    }
 }
