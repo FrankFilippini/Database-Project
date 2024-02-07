@@ -20,5 +20,17 @@ public class ConnectionProvider {
         this.dbName = dbName;
     }
 
+    /**
+     * @return a Connection with the database specified in the class constructor
+     * @throws IllegalStateException if the connection could not be establish
+     */
+    public Connection getMySQLConnection() {
+        final String dbUri = "jdbc:mysql://localhost:3306/" + this.dbName;
+        try {
+            return DriverManager.getConnection(dbUri, this.username, this.password);
+        } catch (final SQLException e) {
+            throw new IllegalStateException("Could not establish a connection with db", e);
+        }
+    }
     
 }
