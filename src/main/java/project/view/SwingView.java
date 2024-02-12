@@ -1,5 +1,7 @@
 package project.view;
 
+import javax.swing.JFrame;
+
 import project.core.Controller;
 
 /**
@@ -8,6 +10,7 @@ import project.core.Controller;
 
 public class SwingView implements View {
     private final Controller controller;
+    private final JFrame frame = new JFrame();
 
     /**
      * Constructor for SwingView.
@@ -15,12 +18,12 @@ public class SwingView implements View {
      */
     public SwingView(Controller controller) {
         this.controller = controller;
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
     public void start() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'start'");
+        this.frame.setVisible(true);
     }
 
     @Override
