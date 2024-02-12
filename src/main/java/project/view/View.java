@@ -10,4 +10,7 @@ public interface View {
      * Method to start the connection with the database.
      */
     void startConnection();
+
+    
+    void tryAuthentication();
 }

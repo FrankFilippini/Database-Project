@@ -28,6 +28,8 @@ public class SwingView implements View {
         this.controller = controller;
         this.frame.setSize(this.startScreen);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setPreferredSize(this.frame.getSize());
+        this.frame.setResizable(true);
     }
 
     @Override
@@ -35,9 +37,17 @@ public class SwingView implements View {
         this.frame.setVisible(true);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void startConnection() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'startConnection'");
+    }
+
+    @Override
+    public void tryAuthentication() {
+        this.controller.tryAuthentication("root", "");
     }
 }
