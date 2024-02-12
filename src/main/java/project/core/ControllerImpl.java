@@ -25,4 +25,10 @@ public class ControllerImpl implements Controller {
     public ControllerImpl(){
         this.view.start();
     }
+
+    @Override
+    public void tryAuthentication(String username, String password) {
+        this.connectionProvider = new ConnectionProvider(username, password, DATABASE_NAME);
+        this.connection = this.connectionProvider.getMySQLConnection();
+    }
 }

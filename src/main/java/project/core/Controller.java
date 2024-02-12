@@ -5,5 +5,10 @@ package project.core;
  */
 
 public interface Controller {
-    
+    /**
+     * method to get the access to the database
+     * @param username
+     * @param password
+     */
+    void tryAuthentication(String username, String password);
 }
