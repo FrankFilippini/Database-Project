@@ -1,8 +1,19 @@
 package project.query;
 
 import java.util.List;
+import java.sql.Connection;
 
 public class DatabaseImpl implements Database {
+
+    private final Connection connection;
+
+    /***
+     * Constructor
+     * @param connection is the database's connection
+     */
+    public DatabaseImpl(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public List<String> getTableNames() {
