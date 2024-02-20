@@ -30,5 +30,8 @@ public class ControllerImpl implements Controller {
     public void tryAuthentication(String username, String password) {
         this.connectionProvider = new ConnectionProvider(username, password, DATABASE_NAME);
         this.connection = this.connectionProvider.getMySQLConnection();
+        if(this.connection.isPresent()) {
+           // this.database = new DatabaseImpl();
+        }
     }
 }
