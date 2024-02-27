@@ -1,6 +1,6 @@
 package project.query;
 
-import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.JDBCType;
+import java.sql.PreparedStatement;
 
 public class DatabaseImpl implements Database {
 
@@ -104,7 +105,26 @@ public class DatabaseImpl implements Database {
         final ResultSet resSet = stmt.executeQuery(qry);
         int columnsNumber = getColumnsNames(resSet.getMetaData()).size();
         List<Integer> TypesOfTable = getTypes(TableName);
-        return true; // da finire
+        String values = new StringBuilder().append("(")
+                        .append(String.join(",", () -> new Iterator<CharSequence>() {
+                                                                                private int count = 0;
+                                                                                public boolean hasNext() {
+                                                                                    return count < columnsNumber;
+                                                                                }
+                                                                                public CharSequence next() {
+                                                                                    count++;
+                                                                                    return "?";
+                                                                                }
+                                                                 } ))
+                        .append(")")
+                        .toString();
+        String query = "INSERT " + TableName + " VALUES " + values;
+        PreparedStatement statement = connection.prepareStatement(query);
+        for (int i = 0; i < columnsNumber; i++) {
+            statement.setObject(i+1, nulls.get(i), TypesOfTable.get(i));
+        }
+        statement.executeUpdate();
+        return true;
     }
 
     private List<Integer> getTypes(String tableName) throws SQLException {
