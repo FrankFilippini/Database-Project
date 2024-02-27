@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.JDBCType;
 
 public class DatabaseImpl implements Database {
 
@@ -55,9 +56,9 @@ public class DatabaseImpl implements Database {
             List<List<String>> list = new LinkedList<>();
             list.add(columnsNames);
             list.addAll(getListFromResultSet());
-            return null;
+            return new TableImpl(list);
         } catch (SQLException e) {
-            return null;
+            return new TableImpl(List.of());
         }
     }
 
@@ -88,8 +89,44 @@ public class DatabaseImpl implements Database {
 
     @Override
     public boolean tryInsertRecord(String TableName, List<String> record) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'tryInsertRecord'");
+        try {
+            return Insert(TableName, record);
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    private boolean Insert(String TableName, List<String> record) throws SQLException {
+        List<String> modifiedRecord = new LinkedList<>(record);
+        final List<String> nulls = modifiedRecord.stream().map(i -> (String)null).toList();
+        final String qry = "SELECT * FROM" + TableName;    //creo una query per riutilizzare il metodo getColumnsNames per trovare il numero di colonne
+        final Statement stmt = this.connection.createStatement();
+        final ResultSet resSet = stmt.executeQuery(qry);
+        int columnsNumber = getColumnsNames(resSet.getMetaData()).size();
+        List<Integer> TypesOfTable = getTypes(TableName);
+        return true; // da finire
+    }
+
+    private List<Integer> getTypes(String tableName) throws SQLException {
+        String query = "SELECT DATA_TYPE" + "FROM INFORMATION_SCHEMA.COLUMNS" + "WHERE table_schema = 'bathhouse' AND table_name = '" + tableName + "'";   
+        try {
+            this.statement = this.connection.createStatement();
+            this.resultSet = this.statement.executeQuery(query);
+            List<Integer> list = new LinkedList<>();
+            while(this.resultSet.next()) {
+                list.add(getType(resultSet));
+            }
+            return list;
+        } catch (SQLException e) {
+            return List.of();
+        }
+    }
+
+    private Integer getType(ResultSet resultSet) throws SQLException {
+        if (resultSet.getString(1).equals("int")) {
+            return JDBCType.INTEGER.getVendorTypeNumber();
+        }
+        return JDBCType.valueOf(resultSet.getString(1).toUpperCase()).getVendorTypeNumber();
     }
     
 }
