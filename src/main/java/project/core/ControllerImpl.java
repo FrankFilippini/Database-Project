@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.util.Optional;
 
 import project.db.ConnectionProvider;
+import project.query.Database;
+import project.query.DatabaseImpl;
 import project.view.SwingView;
 
 /**
@@ -17,6 +19,7 @@ public class ControllerImpl implements Controller {
     private final View view = new SwingView(this);
     private ConnectionProvider connectionProvider;
     private Optional<Connection> connection = Optional.empty();
+    private Database database;
 
     /**
      * Contructor for the Controller of the app.
@@ -31,7 +34,10 @@ public class ControllerImpl implements Controller {
         this.connectionProvider = new ConnectionProvider(username, password, DATABASE_NAME);
         this.connection = this.connectionProvider.getMySQLConnection();
         if(this.connection.isPresent()) {
-           // this.database = new DatabaseImpl();
+            this.database = new DatabaseImpl(connection.get());
+            System.out.println("Everything ok");
+        }else{
+            System.out.println("Connection failed");
         }
     }
 }

@@ -34,6 +34,7 @@ public class SwingView implements View {
 
     @Override
     public void start() {
+        this.frame.setLocation((int)startScreen.getWidth(), (int)startScreen.getHeight());
         this.frame.setVisible(true);
     }
 
