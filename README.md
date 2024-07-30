@@ -1,2 +1,2 @@
 # Database-Project
-Repository with a Java application for the database of a Bathhouse
+Repository with an application for the database of a Bathhouse
