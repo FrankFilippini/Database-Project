@@ -1,2 +1,2 @@
 # Database-Project
-Repository with an application for the database of a Bathhouse
+Repository with an application to implement a database for a bathhouse, named "Starfish"
