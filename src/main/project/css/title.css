@@ -1,0 +1,21 @@
+/* Francesco Filippini */
+
+@import url('global.css');
+
+body > header {
+    background: linear-gradient(to top right, var(--dark-slate-gray-opaque), var(--mahogany-opaque), var(--grape-opaque));
+    color: white;
+    box-sizing: border-box;
+    width: 100%;
+    z-index: 9999;
+    font-size: x-large;
+    margin: 0.5% 0 1% 0;
+    padding: 0.5% 0;
+    border-bottom: medium solid;
+    text-align: center;
+}
+
+body > header > h1 {
+    padding: 0;
+    margin: 0;
+}

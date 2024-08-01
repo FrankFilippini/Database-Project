@@ -1,0 +1,75 @@
+/* Francesco Filippini */
+
+@import url('global.css');
+@import url('title.css');
+
+
+body > main {
+    text-align: center;
+}
+
+/* SIGN IN and SIGN UP links */
+body > nav > ul {
+    list-style: none;
+    text-align: right;
+    margin: 0;
+}
+body > nav > ul > li {
+    display: inline-block;
+    border-radius: 12px;
+    border: black medium solid;
+    padding: 5px;
+    margin: 1px;
+}
+
+/* LOGO image */
+body > main > img {
+    display: none;
+    box-sizing: border-box;
+    vertical-align: top;
+    height: 250px;
+}
+
+
+/* FORM */
+body > main > form {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 90%;
+    height: 250px;
+    padding: 20px 2%;
+    margin: 0 5% 5%;
+}
+
+body > main form > h2 {
+    text-align: left;
+    margin: 0;
+}
+
+body > main form > ul {
+    list-style: none;
+}
+
+body > main form > ul > li {
+    padding: 5px;
+}
+
+body > main form > ul > li:not(:last-child) {
+    width: 80%;
+    margin: 0 10%;
+    text-align: left;
+}
+
+body > main form > ul > li > label {
+    display: none;
+}
+
+body > main form > ul > li:not(:last-child) > input {
+    display: block;
+    width: 100%;
+}
+
+body > main form > ul > li:last-child {
+    text-align: right;
+    margin-top: 20px;
+}

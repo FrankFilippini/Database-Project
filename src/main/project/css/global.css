@@ -1,0 +1,62 @@
+/* Francesco Filippini */
+
+/* DEFINITIONS */
+:root {
+    /* COLORS */
+    --dark-slate-gray: #183A37; /* white text color, HEADER and FOOTER */
+    --reseda-green: #848872; /* black text color, GENERAL CONTENT BACKGROUND */
+    --wheat: #EFD6AC; /* black text color, PAGES BACKGROUND */
+    --mahogany: #C44900; /* white text color, HEADER and FOOTER */
+    --chamoisee: #9B7451; /* black text color, UNSELECTED BUTTONS in MENU, FORMS... */
+    --moonstone: #729EA1; /* black text color, SELECTED BUTTONS in MENU, FORMS... */
+    --grape: #6f0AB3; /* white text color, LOGO, HEADER and FOOTER + :hover */
+
+    /* COLORS OPAQUE */
+    --dark-slate-gray-opaque: rgba(24, 58, 55, 0.85);
+    --reseda-green-opaque: rgba(132, 136, 114, 0.85);
+    --wheat-opaque: rgba(239, 214, 172, 0.85);
+    --mahogany-opaque: rgba(196, 73, 0, 0.85);
+    --chamoisee-opaque: rgba(155, 116, 81, 0.85);
+    --moonstone-opaque: rgba(114, 158, 161, 0.85);
+    --grape-opaque: rgba(111, 10, 179, 0.85);
+
+    /* Visited text color */
+    --dark-grey: rgb(45, 45, 45);
+}
+
+/* PAGINATION */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 99%;
+}
+
+body {
+    background-color: var(--wheat);
+
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 100%;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 99%;
+    margin: 0.5%;
+}
+
+body > main {
+    /* Allows main to occupy space left over */
+    flex: 1;
+    margin: 1%;
+}
+
+body a:visited {
+    color: var(--dark-grey);
+}
+
+body a:hover {
+    color: var(--grape);
+}
+
+body a:active {
+    color: magenta;
+}
