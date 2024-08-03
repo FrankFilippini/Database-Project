@@ -1,0 +1,42 @@
+<!-- Alessandro Verna -->
+ <!DOCTYPE html>
+ <html lang="en">
+    <head>
+        <title>New Reservation</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="../css/newreservation.css" type="text/css">
+        <link rel="icon" type="image/x-icon" href="../../../../starfish.jpg">
+    </head>
+    <body>
+        <header>
+            <h1>Starfish</h1>
+            <h2>New Reservation</h2>
+        </header>
+        <nav>
+            <ul><li id="home"><a href="home.html">Home</a></li><li id="reservations"><a href="reservations.html">Reservations</a></li><li id="events"><a href="events.html">Events</a></li></ul>
+        </nav>
+        <main>
+            <section>
+                <h3>New Reservation</h3>
+                <form action="#" method="post">
+                    <ul>
+                        <li><label for="nome">Nome:</label><input type="text" id="nome" name="nome" required></li>
+                        <li><label for="cognome">Cognome:</label><input type="text" id="cognome" name="cognome" required></li>
+                        <li><label for="dataInizio">Data di inizio:</label><input type="date" id="dataInizio"></li>
+                        <li><label for="dataFine">Data di fine:</label><input type="date" id="dataFine"></li>
+                        <li><label for="tipoPrenotazione">Tipologia:</label>
+                            <select name="tipoPrenotazione" id="tipoPrenotazione" required>
+                                <option value="ombrellone" selected>Ombrellone</option>
+                                <option value="lettino">Lettino</option>
+                                <option value="pedalo">Pedalò</option>
+                            </select>
+                        </li>
+                        <li><label for="telefono">Numero di Telefono:</label><input type="tel" id="telefono" name="telefono" required></li>
+                        <li><button type="submit">Iscriviti</button></li>
+                    </ul>
+                </form>
+            </section>
+        </main>
+    </body>
+ </html>
