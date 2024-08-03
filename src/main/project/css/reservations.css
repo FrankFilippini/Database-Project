@@ -2,3 +2,25 @@
 @import url(global.css);
 @import url(menu.css);
 @import url(navreservations.css);
+
+main > a {
+    color: white;
+    margin-left: 48%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-decoration: none;
+    background-color: bisque;
+}
+
+main > ul > li {
+    list-style: none;
+    border: 2px solid black;
+    padding: 1%;
+}
+
+main > ul > li > img {
+    width: 10%;
+}
