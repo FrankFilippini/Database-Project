@@ -17,8 +17,11 @@ main > a {
 
 main > ul > li {
     list-style: none;
-    border: 2px solid black;
-    padding: 1%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: auto;
+    margin-bottom: 0.5%;
+    margin-right: 4%;
 }
 
 main > ul > li > img {
