@@ -13,7 +13,7 @@
 -- ________________
 
 DROP DATABASE IF EXISTS `Starfish`;
-CREATE DATABASE `Starfish` DEFAULT VARCHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin';
+CREATE DATABASE `Starfish` DEFAULT CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin';
 USE `Starfish`;
 
 
@@ -21,9 +21,9 @@ USE `Starfish`;
 -- ________________
 
 CREATE TABLE `AGENDE_DEI_TURNI` (
-     `mese` VARCHAR(10) NOT NULL,       --TODO: ??? da capire se va bene 
+     `mese` VARCHAR(10) NOT NULL,       --TODO: ? da capire se va bene --
      `codiceStaff` INT UNSIGNED NOT NULL,
-     CONSTRAINT `ID_AGENDA_DEI_TURNI_ID` PRIMARY KEY (`mese`));
+     CONSTRAINT `ID_AGENDA_DEI_TURNI_PK` PRIMARY KEY (`mese`));
 
 CREATE TABLE `AMMINISTRATORI` (
      `codiceStaff` INT UNSIGNED NOT NULL,
@@ -32,17 +32,17 @@ CREATE TABLE `AMMINISTRATORI` (
      `cognome` VARVARCHAR(50) NOT NULL DEFAULT '',
      `email` VARVARCHAR(50) UNIQUE DEFAULT NULL
      `password` VARCHAR(25) NOT NULL,
-     CONSTRAINT `ID_AMMINISTRATORE_ID` PRIMARY KEY (`codiceStaff`));
+     CONSTRAINT `ID_AMMINISTRATORE_PK` PRIMARY KEY (`codiceStaff`));
 
 CREATE TABLE `CLIENTI` (
-     `codiceCliente` INT UNSIGNED NOT NULL AUTO_INCREMENT, --TODO: ??? ho messo autoincrement ma non l'ho messo nelle altre tabelle dove c'è il codicecliente
+     `codiceCliente` INT UNSIGNED NOT NULL AUTO_INCREMENT, --TODO: ? ho messo autoincrement ma non l'ho messo nelle altre tabelle dove c'è il codicecliente
      `numeroTelefono` INT UNSIGNED NOT NULL,
      `CF` VARCHAR(50) NOT NULL,
      `nome` VARVARCHAR(50) NOT NULL DEFAULT '',
      `cognome` VARVARCHAR(50) NOT NULL DEFAULT '',
      `email` VARVARCHAR(50) UNIQUE DEFAULT NULL
      `password` VARCHAR(25) NOT NULL,
-     CONSTRAINT `IDCLIENTI_ID` PRIMARY KEY (`codiceCliente`));
+     CONSTRAINT `ID_CLIENTI_PK` PRIMARY KEY (`codiceCliente`));
 
 CREATE TABLE `EVENTI` (
      `codiceEvento` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -50,22 +50,22 @@ CREATE TABLE `EVENTI` (
      `dataFine` DATETIME NOT NULL,
      `numeroPosti` INT UNSIGNED,
      `codiceStaff` INT UNSIGNED NOT NULL,
-     CONSTRAINT `ID_EVENTO_ID` PRIMARY KEY (`codiceEvento`));
+     CONSTRAINT `ID_EVENTO_PK` PRIMARY KEY (`codiceEvento`));
 
 CREATE TABLE `ISCRIZIONI` (
      `codiceEvento` INT UNSIGNED NOT NULL,
      `codiceCliente` INT UNSIGNED NOT NULL,
      CONSTRAINT `FKR_1_ID` UNIQUE (`codiceCliente`),
-     CONSTRAINT `IDISCRIZIONI` PRIMARY KEY (`codiceEvento`, `codiceCliente`));
+     CONSTRAINT `ID_ISCRIZIONI_PK` PRIMARY KEY (`codiceEvento`, `codiceCliente`));
 
 CREATE TABLE `LETTINI` (
      `codiceLettino` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-     CONSTRAINT `ID_LETTINO_ID` PRIMARY KEY (`codiceLettino`));
+     CONSTRAINT `ID_LETTINO_PK` PRIMARY KEY (`codiceLettino`));
 
 CREATE TABLE `LISTINI` (
-     `mese` VARCHAR(10) NOT NULL,            --TODO: ??? da capire se va bene 
+     `mese` VARCHAR(10) NOT NULL,            --TODO: ? da capire se va bene 
      `codiceStaff` INT UNSIGNED NOT NULL,
-     CONSTRAINT `ID_LISTINO_ID` PRIMARY KEY (`mese`));
+     CONSTRAINT `ID_LISTINO_PK` PRIMARY KEY (`mese`));
 
 CREATE TABLE `MEMBRI` (
      `CF` VARCHAR(50) NOT NULL,
@@ -75,24 +75,24 @@ CREATE TABLE `MEMBRI` (
      `cognome` VARVARCHAR(50) NOT NULL DEFAULT '',
      `email` VARVARCHAR(50) UNIQUE DEFAULT NULL
      `password` VARCHAR(25) NOT NULL,
-     CONSTRAINT `ID_MEMBRO_ID` PRIMARY KEY (`codiceStaff`),
+     CONSTRAINT `ID_MEMBRO_PK` PRIMARY KEY (`codiceStaff`),
      CONSTRAINT `FKR_ID` UNIQUE (`IdTurno`));
 
 CREATE TABLE `OMBRELLONI` (
      `codiceOmbrellone` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-     CONSTRAINT `ID_OMBRELLONE_ID` PRIMARY KEY (`codiceOmbrellone`));
+     CONSTRAINT `ID_OMBRELLONE_PK` PRIMARY KEY (`codiceOmbrellone`));
 
 CREATE TABLE `PEDALO'` (
      `codicePedalò` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-     CONSTRAINT `ID_PEDALO__ID` PRIMARY KEY (`codicePedalò`));
+     CONSTRAINT `ID_PEDALO__PK` PRIMARY KEY (`codicePedalò`));
 
 CREATE TABLE `PRENOTAZIONI` (
      `dataInizio` DATETIME NOT NULL,
      `dataFine` DATETIME NOT NULL,
      `codicePrenotazione` INT UNSIGNED NOT NULL AUTO_INCREMENT,
      `codiceCliente` INT UNSIGNED NOT NULL,
-     `mese` VARCHAR(10) NOT NULL,                                 --TODO: ??? da capire se va bene
-     CONSTRAINT `ID_PRENOTAZIONE_ID` PRIMARY KEY (`codicePrenotazione`),
+     `mese` VARCHAR(10) NOT NULL,                                 --TODO: ? da capire se va bene
+     CONSTRAINT `ID_PRENOTAZIONE_PK` PRIMARY KEY (`codicePrenotazione`),
      CONSTRAINT `FKR_ID` UNIQUE (`codiceCliente`));
 
 CREATE TABLE `RECENSIONI` (
@@ -100,19 +100,19 @@ CREATE TABLE `RECENSIONI` (
      `codiceCliente` INT UNSIGNED NOT NULL,
      `valutazione` INT UNSIGNED,
      `codiceStaff` INT UNSIGNED NOT NULL,
-     `mese` VARCHAR(10) NOT NULL,                                    --TODO: ??? da capire se va bene
-     CONSTRAINT `IDRECENSIONI` PRIMARY KEY (`codiceRecensione`),
+     `mese` VARCHAR(10) NOT NULL,                                    --TODO: ? da capire se va bene
+     CONSTRAINT `ID_RECENSIONI_PK` PRIMARY KEY (`codiceRecensione`),
      CONSTRAINT `FKR_ID` UNIQUE (`codiceCliente`));
 
 CREATE TABLE `STORICO_RECENSIONI` (
-     `mese` VARCHAR(10) NOT NULL,                                     --TODO: ??? da capire se va bene
+     `mese` VARCHAR(10) NOT NULL,                                     --TODO: ? da capire se va bene
      `codiceStaff` INT UNSIGNED NOT NULL,
-     CONSTRAINT `ID_STORICO_RECENSIONI_ID` PRIMARY KEY (`mese`));
+     CONSTRAINT `ID_STORICO_RECENSIONI_PK` PRIMARY KEY (`mese`));
 
 CREATE TABLE `TAVOLI` (
      `numeroTavolo` INT UNSIGNED NOT NULL AUTO_INCREMENT,
      `numero_persone` INT UNSIGNED NOT NULL,
-     CONSTRAINT `ID_TAVOLO_ID` PRIMARY KEY (`numeroTavolo`));
+     CONSTRAINT `ID_TAVOLO_PK` PRIMARY KEY (`numeroTavolo`));
 
 CREATE TABLE `TIPOLOGIE` (
      `codicePrenotazione` INT UNSIGNED NOT NULL,
@@ -123,20 +123,20 @@ CREATE TABLE `TIPOLOGIE` (
      CONSTRAINT `FKR_ID` UNIQUE (`codiceLettino`),
      CONSTRAINT `FKR_1_ID` UNIQUE (`numeroTavolo`),
      CONSTRAINT `FKR_2_ID` UNIQUE (`codicePedalò`),
-     CONSTRAINT `IDTIPOLOGIE` PRIMARY KEY (`codicePrenotazione`, `codiceOmbrellone`, `codiceLettino`, `numeroTavolo`, `codicePedalò`));
+     CONSTRAINT `ID_TIPOLOGIE_PK` PRIMARY KEY (`codicePrenotazione`, `codiceOmbrellone`, `codiceLettino`, `numeroTavolo`, `codicePedalò`));
 
 CREATE TABLE `TURNI_DI_LAVORO` (
-     `giorno` VARCHAR(10) NOT NULL,                                  --TODO: ??? da capire se va bene
+     `giorno` VARCHAR(10) NOT NULL,                                  --TODO: ? da capire se va bene
      `oraInizio` TIME NOT NULL,
      `oraFine` TIME NOT NULL,
-     `mese` VARCHAR(10) NOT NULL,                                  --TODO: ??? da capire se va bene
+     `mese` VARCHAR(10) NOT NULL,                                  --TODO: ? da capire se va bene
      `IdTurno` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-     CONSTRAINT `IDTURNI_DI_LAVORO_ID` PRIMARY KEY (`IdTurno`));
+     CONSTRAINT `IDTURNI_DI_LAVORO_PK` PRIMARY KEY (`IdTurno`));
 
 CREATE TABLE VISUALIZZAZIONI (
      `codicePrenotazione` INT UNSIGNED NOT NULL,
      `codiceStaff` INT UNSIGNED NOT NULL,
-     CONSTRAINT `IDVISUALIZZAZIONI` PRIMARY KEY (`codicePrenotazione`, `codiceStaff`));
+     CONSTRAINT `ID_VISUALIZZAZIONI_PK` PRIMARY KEY (`codicePrenotazione`, `codiceStaff`));
 
 
 -- CONSTRAINTs Section
