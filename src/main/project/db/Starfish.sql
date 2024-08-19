@@ -1,0 +1,343 @@
+-- *********************************************
+-- * Standard SQL generation                   
+-- *--------------------------------------------
+-- * DB-MAIN version: 11.0.2              
+-- * Generator date: Sep 14 2021              
+-- * Generation date: Mon Aug 19 10:11:13 2024 
+-- * LUN file: C:\Users\Gemma\Documents\BASI DI DATI\ELABORATO\Sito di uno stabilimento balneare.lun 
+-- * Schema: schema relazionale finale/1 
+-- ********************************************* 
+
+
+-- Database Section
+-- ________________
+
+DROP DATABASE IF EXISTS `Starfish`;
+CREATE DATABASE `Starfish` DEFAULT VARCHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin';
+USE `Starfish`;
+
+
+-- Tables Section
+-- ________________
+
+CREATE TABLE `AGENDE_DEI_TURNI` (
+     `mese` VARCHAR(10) NOT NULL,       --TODO: ??? da capire se va bene 
+     `codiceStaff` INT UNSIGNED NOT NULL,
+     CONSTRAINT `ID_AGENDA_DEI_TURNI_ID` PRIMARY KEY (`mese`));
+
+CREATE TABLE `AMMINISTRATORI` (
+     `codiceStaff` INT UNSIGNED NOT NULL,
+     `CF` VARCHAR(50) NOT NULL,
+     `nome` VARVARCHAR(50) NOT NULL DEFAULT '',
+     `cognome` VARVARCHAR(50) NOT NULL DEFAULT '',
+     `email` VARVARCHAR(50) UNIQUE DEFAULT NULL
+     `password` VARCHAR(25) NOT NULL,
+     CONSTRAINT `ID_AMMINISTRATORE_ID` PRIMARY KEY (`codiceStaff`));
+
+CREATE TABLE `CLIENTI` (
+     `codiceCliente` INT UNSIGNED NOT NULL AUTO_INCREMENT, --TODO: ??? ho messo autoincrement ma non l'ho messo nelle altre tabelle dove c'è il codicecliente
+     `numeroTelefono` INT UNSIGNED NOT NULL,
+     `CF` VARCHAR(50) NOT NULL,
+     `nome` VARVARCHAR(50) NOT NULL DEFAULT '',
+     `cognome` VARVARCHAR(50) NOT NULL DEFAULT '',
+     `email` VARVARCHAR(50) UNIQUE DEFAULT NULL
+     `password` VARCHAR(25) NOT NULL,
+     CONSTRAINT `IDCLIENTI_ID` PRIMARY KEY (`codiceCliente`));
+
+CREATE TABLE `EVENTI` (
+     `codiceEvento` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     `dataInizio` DATETIME NOT NULL,
+     `dataFine` DATETIME NOT NULL,
+     `numeroPosti` INT UNSIGNED,
+     `codiceStaff` INT UNSIGNED NOT NULL,
+     CONSTRAINT `ID_EVENTO_ID` PRIMARY KEY (`codiceEvento`));
+
+CREATE TABLE `ISCRIZIONI` (
+     `codiceEvento` INT UNSIGNED NOT NULL,
+     `codiceCliente` INT UNSIGNED NOT NULL,
+     CONSTRAINT `FKR_1_ID` UNIQUE (`codiceCliente`),
+     CONSTRAINT `IDISCRIZIONI` PRIMARY KEY (`codiceEvento`, `codiceCliente`));
+
+CREATE TABLE `LETTINI` (
+     `codiceLettino` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     CONSTRAINT `ID_LETTINO_ID` PRIMARY KEY (`codiceLettino`));
+
+CREATE TABLE `LISTINI` (
+     `mese` VARCHAR(10) NOT NULL,            --TODO: ??? da capire se va bene 
+     `codiceStaff` INT UNSIGNED NOT NULL,
+     CONSTRAINT `ID_LISTINO_ID` PRIMARY KEY (`mese`));
+
+CREATE TABLE `MEMBRI` (
+     `CF` VARCHAR(50) NOT NULL,
+     `codiceStaff` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     `IdTurno` INT UNSIGNED NOT NULL,
+     `nome` VARVARCHAR(50) NOT NULL DEFAULT '',
+     `cognome` VARVARCHAR(50) NOT NULL DEFAULT '',
+     `email` VARVARCHAR(50) UNIQUE DEFAULT NULL
+     `password` VARCHAR(25) NOT NULL,
+     CONSTRAINT `ID_MEMBRO_ID` PRIMARY KEY (`codiceStaff`),
+     CONSTRAINT `FKR_ID` UNIQUE (`IdTurno`));
+
+CREATE TABLE `OMBRELLONI` (
+     `codiceOmbrellone` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     CONSTRAINT `ID_OMBRELLONE_ID` PRIMARY KEY (`codiceOmbrellone`));
+
+CREATE TABLE `PEDALO'` (
+     `codicePedalò` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     CONSTRAINT `ID_PEDALO__ID` PRIMARY KEY (`codicePedalò`));
+
+CREATE TABLE `PRENOTAZIONI` (
+     `dataInizio` DATETIME NOT NULL,
+     `dataFine` DATETIME NOT NULL,
+     `codicePrenotazione` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     `codiceCliente` INT UNSIGNED NOT NULL,
+     `mese` VARCHAR(10) NOT NULL,                                 --TODO: ??? da capire se va bene
+     CONSTRAINT `ID_PRENOTAZIONE_ID` PRIMARY KEY (`codicePrenotazione`),
+     CONSTRAINT `FKR_ID` UNIQUE (`codiceCliente`));
+
+CREATE TABLE `RECENSIONI` (
+     `codiceRecensione` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     `codiceCliente` INT UNSIGNED NOT NULL,
+     `valutazione` INT UNSIGNED,
+     `codiceStaff` INT UNSIGNED NOT NULL,
+     `mese` VARCHAR(10) NOT NULL,                                    --TODO: ??? da capire se va bene
+     CONSTRAINT `IDRECENSIONI` PRIMARY KEY (`codiceRecensione`),
+     CONSTRAINT `FKR_ID` UNIQUE (`codiceCliente`));
+
+CREATE TABLE `STORICO_RECENSIONI` (
+     `mese` VARCHAR(10) NOT NULL,                                     --TODO: ??? da capire se va bene
+     `codiceStaff` INT UNSIGNED NOT NULL,
+     CONSTRAINT `ID_STORICO_RECENSIONI_ID` PRIMARY KEY (`mese`));
+
+CREATE TABLE `TAVOLI` (
+     `numeroTavolo` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     `numero_persone` INT UNSIGNED NOT NULL,
+     CONSTRAINT `ID_TAVOLO_ID` PRIMARY KEY (`numeroTavolo`));
+
+CREATE TABLE `TIPOLOGIE` (
+     `codicePrenotazione` INT UNSIGNED NOT NULL,
+     `codiceOmbrellone` INT UNSIGNED NOT NULL,
+     `codiceLettino` INT UNSIGNED NOT NULL,
+     `numeroTavolo` INT UNSIGNED NOT NULL,
+     `codicePedalò` INT UNSIGNED NOT NULL,
+     CONSTRAINT `FKR_ID` UNIQUE (`codiceLettino`),
+     CONSTRAINT `FKR_1_ID` UNIQUE (`numeroTavolo`),
+     CONSTRAINT `FKR_2_ID` UNIQUE (`codicePedalò`),
+     CONSTRAINT `IDTIPOLOGIE` PRIMARY KEY (`codicePrenotazione`, `codiceOmbrellone`, `codiceLettino`, `numeroTavolo`, `codicePedalò`));
+
+CREATE TABLE `TURNI_DI_LAVORO` (
+     `giorno` VARCHAR(10) NOT NULL,                                  --TODO: ??? da capire se va bene
+     `oraInizio` TIME NOT NULL,
+     `oraFine` TIME NOT NULL,
+     `mese` VARCHAR(10) NOT NULL,                                  --TODO: ??? da capire se va bene
+     `IdTurno` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     CONSTRAINT `IDTURNI_DI_LAVORO_ID` PRIMARY KEY (`IdTurno`));
+
+CREATE TABLE VISUALIZZAZIONI (
+     `codicePrenotazione` INT UNSIGNED NOT NULL,
+     `codiceStaff` INT UNSIGNED NOT NULL,
+     CONSTRAINT `IDVISUALIZZAZIONI` PRIMARY KEY (`codicePrenotazione`, `codiceStaff`));
+
+
+-- CONSTRAINTs Section
+-- ___________________ 
+
+ALTER TABLE `AGENDE_DEI_TURNI` ADD CONSTRAINT `FKCONSULTAZIONE_FK`
+     FOREIGN KEY (`codiceStaff`)
+     REFERENCES `AMMINISTRATORI`;
+
+ALTER TABLE `CLIENTI` ADD CONSTRAINT `IDCLIENTI_CHK`
+     CHECK(EXISTS(SELECT * FROM `ISCRIZIONI`
+                  WHERE `ISCRIZIONI`.`codiceCliente` = `codiceCliente`)); 
+
+ALTER TABLE `CLIENTI` ADD CONSTRAINT `IDCLIENTI_CHK`
+     CHECK(EXISTS(SELECT * FROM `PRENOTAZIONI`
+                  WHERE `PRENOTAZIONI`.`codiceCliente` = `codiceCliente`)); 
+
+ALTER TABLE `CLIENTI` ADD CONSTRAINT `IDCLIENTI_CHK`
+     CHECK(EXISTS(SELECT * FROM `RECENSIONI`
+                  WHERE `RECENSIONI`.`codiceCliente` = `codiceCliente`)); 
+
+ALTER TABLE `EVENTI` ADD CONSTRAINT `FKCREAZIONE_FK`
+     FOREIGN KEY (`codiceStaff`)
+     REFERENCES `MEMBRI`;
+
+ALTER TABLE `ISCRIZIONI` ADD CONSTRAINT `FKISC_EVE_FK`
+     FOREIGN KEY (`codiceEvento`)
+     REFERENCES `EVENTI`;
+
+ALTER TABLE `ISCRIZIONI` ADD CONSTRAINT `FKR_1_FK`
+     FOREIGN KEY (`codiceCliente`)
+     REFERENCES `CLIENTI`;
+
+ALTER TABLE `LETTINI` ADD CONSTRAINT `ID_LETTINO_CHK`
+     CHECK(EXISTS(SELECT * FROM `TIPOLOGIE`
+                  WHERE `TIPOLOGIE`.`codiceLettino` = `codiceLettino`)); 
+
+ALTER TABLE `LISTINI` ADD CONSTRAINT `FKANALIZZAZIONE_FK`
+     FOREIGN KEY (`codiceStaff`)
+     REFERENCES `AMMINISTRATORI`;
+
+ALTER TABLE `MEMBRI` ADD CONSTRAINT `FKR_FK`
+     FOREIGN KEY (`IdTurno`)
+     REFERENCES `TURNI_DI_LAVORO`;
+
+ALTER TABLE `OMBRELLONI` ADD CONSTRAINT `ID_OMBRELLONE_CHK`
+     CHECK(EXISTS(SELECT * FROM `TIPOLOGIE`
+                  WHERE `TIPOLOGIE`.`codiceOmbrellone` = `codiceOmbrellone`)); 
+
+ALTER TABLE `PEDALO'` ADD CONSTRAINT `ID_PEDALO__CHK`
+     CHECK(EXISTS(SELECT * FROM `TIPOLOGIE`
+                  WHERE `TIPOLOGIE`.`codicePedalò` = `codicePedalò`)); 
+
+ALTER TABLE `PRENOTAZIONI` ADD CONSTRAINT `ID_PRENOTAZIONE_CHK`
+     CHECK(EXISTS(SELECT * FROM `TIPOLOGIE`
+                  WHERE `TIPOLOGIE`.`codicePrenotazione` = `codicePrenotazione`)); 
+
+ALTER TABLE `PRENOTAZIONI` ADD CONSTRAINT `ID_PRENOTAZIONE_CHK`
+     CHECK(EXISTS(SELECT * FROM `VISUALIZZAZIONI`
+                  WHERE `VISUALIZZAZIONI`.`codicePrenotazione` = `codicePrenotazione`)); 
+
+ALTER TABLE `PRENOTAZIONI` ADD CONSTRAINT `FKMEMORIZZAZIONE_FK`
+     FOREIGN KEY (`mese`)
+     REFERENCES `LISTINI`;
+
+ALTER TABLE `PRENOTAZIONI` ADD CONSTRAINT `FKR_FK`
+     FOREIGN KEY (`codiceCliente`)
+     REFERENCES `CLIENTI`;
+
+ALTER TABLE `RECENSIONI` ADD CONSTRAINT `FKRIFERIMENTO_FK`
+     FOREIGN KEY (`codiceStaff`)
+     REFERENCES `MEMBRI`;
+
+ALTER TABLE `RECENSIONI` ADD CONSTRAINT `FKCOMPOSIZIONE_FK`
+     FOREIGN KEY (`mese`)
+     REFERENCES `STORICO_RECENSIONI`;
+
+ALTER TABLE `RECENSIONI` ADD CONSTRAINT `FKR_FK`
+     FOREIGN KEY (`codiceCliente`)
+     REFERENCES `CLIENTI`;
+
+ALTER TABLE `STORICO_RECENSIONI` ADD CONSTRAINT `FKOSSERVAZIONE_FK`
+     FOREIGN KEY (`codiceStaff`)
+     REFERENCES `AMMINISTRATORI`;
+
+ALTER TABLE `TAVOLI` ADD CONSTRAINT `ID_TAVOLO_CHK`
+     CHECK(EXISTS(SELECT * FROM `TIPOLOGIE`
+                  WHERE `TIPOLOGIE`.`numeroTavolo` = `numeroTavolo`)); 
+
+ALTER TABLE `TIPOLOGIE` ADD CONSTRAINT `FKTIP_OMB`
+     FOREIGN KEY (`codiceOmbrellone`)
+     REFERENCES `OMBRELLONI`;
+
+ALTER TABLE `TIPOLOGIE` ADD CONSTRAINT `FKTIP_PRE_FK`
+     FOREIGN KEY (`codicePrenotazione`)
+     REFERENCES `PRENOTAZIONI`;
+
+ALTER TABLE `TIPOLOGIE` ADD CONSTRAINT `FKR_FK`
+     FOREIGN KEY (`codiceLettino`)
+     REFERENCES `LETTINI`;
+
+ALTER TABLE `TIPOLOGIE` ADD CONSTRAINT `FKR_1_FK`
+     FOREIGN KEY (`numeroTavolo`)
+     REFERENCES `TAVOLI`;
+
+ALTER TABLE `TIPOLOGIE` ADD CONSTRAINT `FKR_2_FK`
+     FOREIGN KEY (`codicePedalò`)
+     REFERENCES `PEDALO'`;
+
+ALTER TABLE `TURNI_DI_LAVORO` ADD CONSTRAINT `FKSALVATAGGIO_FK`
+     FOREIGN KEY (`mese`)
+     REFERENCES `AGENDE_DEI_TURNI`;
+
+ALTER TABLE `TURNI_DI_LAVORO` ADD CONSTRAINT `IDTURNI_DI_LAVORO_CHK`
+     CHECK(EXISTS(SELECT * FROM `MEMBRI`
+                  WHERE `MEMBRI`.`IdTurno` = `IdTurno`)); 
+
+ALTER TABLE `VISUALIZZAZIONI` ADD CONSTRAINT `FKVIS_MEM`
+     FOREIGN KEY (`codiceStaff`)
+     REFERENCES `MEMBRI`;
+
+ALTER TABLE `VISUALIZZAZIONI` ADD CONSTRAINT `FKVIS_PRE_FK`
+     FOREIGN KEY (`codicePrenotazione`)
+     REFERENCES `PRENOTAZIONI`;
+
+
+-- Index Section
+-- _____________ 
+
+CREATE UNIQUE INDEX `ID_AGENDA_DEI_TURNI_IND`
+     ON `AGENDE_DEI_TURNI` (`mese`);
+
+CREATE INDEX `FKCONSULTAZIONE_IND`
+     ON `AGENDE_DEI_TURNI` (`codiceStaff`);
+
+CREATE UNIQUE INDEX `ID_AMMINISTRATORE_IND`
+     ON `AMMINISTRATORI` (`codiceStaff`);
+
+CREATE UNIQUE INDEX `ID_EVENTO_IND`
+     ON `EVENTI` (`codiceEvento`);
+
+CREATE INDEX `FKCREAZIONE_IND`
+     ON `EVENTI` (`codiceStaff`);
+
+CREATE INDEX `FKISC_EVE_IND`
+     ON `ISCRIZIONI` (`codiceEvento`);
+
+CREATE UNIQUE INDEX `ID_LETTINO_IND`
+     ON `LETTINI` (`codiceLettino`);
+
+CREATE UNIQUE INDEX `ID_LISTINO_IND`
+     ON `LISTINI` (`mese`);
+
+CREATE INDEX `FKANALIZZAZIONE_IND`
+     ON `LISTINI` (`codiceStaff`);
+
+CREATE UNIQUE INDEX `ID_MEMBRO_IND`
+     ON `MEMBRI` (`codiceStaff`);
+
+-- OMBRELLONI
+CREATE UNIQUE INDEX `ID_OMBRELLONE_IND`
+     ON `OMBRELLONI` (`codiceOmbrellone`);
+
+-- PEDALO
+CREATE UNIQUE INDEX `ID_PEDALO__IND`
+     ON `PEDALO'` (`codicePedalò`);
+
+-- PRENOTAZIONI
+CREATE UNIQUE INDEX `ID_PRENOTAZIONE_IND`
+     ON `PRENOTAZIONI` (`codicePrenotazione`);
+
+CREATE INDEX `FKMEMORIZZAZIONE_IND`
+     ON `PRENOTAZIONI` (`mese`);
+
+-- RECENSIONI
+CREATE INDEX `FKRIFERIMENTO_IND`
+     ON `RECENSIONI` (`codiceStaff`);
+
+CREATE INDEX `FKCOMPOSIZIONE_IND`
+     ON `RECENSIONI` (`mese`);
+
+-- STORICO_RECENSIONI
+CREATE UNIQUE INDEX `ID_STORICO_RECENSIONI_IND`
+     ON `STORICO_RECENSIONI` (`mese`);
+
+CREATE INDEX `FKOSSERVAZIONE_IND`
+     ON `STORICO_RECENSIONI` (`codiceStaff`);
+
+-- TAVOLI
+CREATE UNIQUE INDEX `ID_TAVOLO_IND`
+     ON `TAVOLI` (`numeroTavolo`);
+
+-- TIPOLOGIE
+CREATE INDEX `FKTIP_PRE_IND`
+     ON `TIPOLOGIE` (`codicePrenotazione`);
+
+-- TURNI_DI_LAVORO
+CREATE INDEX `FKSALVATAGGIO_IND`
+     ON `TURNI_DI_LAVORO` (`mese`);
+
+-- VISUALIZZAZIONI
+CREATE INDEX `FKVIS_PRE_IND`
+     ON `VISUALIZZAZIONI` (`codicePrenotazione`);
+

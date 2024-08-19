@@ -23,7 +23,7 @@ class Database {
         $profileName = 'default.svg';
         $stmt = $this->conn->prepare('INSERT INTO CLIENTI (codiceCliente, CF, nome, cognome, email, numeroTelefono, password)
                                       VALUES (?, ?, ?, ?, ?, ?, ?)');
-        $stmt->bind_param('sssssss', $codiceCliente, $CF, $nome, $cognome, $email, $numeroTelefono, $password);
+        $stmt->bind_param('issssis', $codiceCliente, $CF, $nome, $cognome, $email, $numeroTelefono, $password);
 
         if ($stmt->execute()) {
             return true;
@@ -36,7 +36,7 @@ class Database {
         $profileName = 'default.svg';
         $stmt = $this->conn->prepare('INSERT INTO MEMBRI (codiceStaff, idTurno, CF, nome, cognome, email, password)
                                         VALUES (?, ?, ?, ?, ?, ?, ?)');
-        $stmt->bind_param('sssssss', $codiceStaff, $idTurno, $CF, $nome, $cognome, $email, $password);
+        $stmt->bind_param('iisssss', $codiceStaff, $idTurno, $CF, $nome, $cognome, $email, $password);
 
         if ($stmt->execute()) {
             return true;
@@ -66,14 +66,14 @@ class Database {
                 INSERT INTO PRENOTAZIONI (codicePrenotazione, codiceCliente, dataInizio, dataFine, mese)
                 VALUES (?, ?, ?, ?, ?);
             ');
-            $stmt->bind_param('sssss', $codicePrenotazione, $codiceCliente, $dataInizio, $dataFine, $mese);
+            $stmt->bind_param('iisss', $codicePrenotazione, $codiceCliente, $dataInizio, $dataFine, $mese);
             $stmt->execute();
     
             $stmt = $this->conn->prepare('
                 INSERT INTO TIPOLOGIE (codicePrenotazione, codiceOmbrellone, codiceLettino, codicePedalo, numeroTavolo)
                 VALUES ((SELECT MAX(codicePrenotazione) FROM PRENOTAZIONI), ?, ?, ?, ?);
             ');
-            $stmt->bind_param('ssss', $codiceOmbrellone, $codiceLettino, $codicePedalo, $numeroTavolo);
+            $stmt->bind_param('iiii', $codiceOmbrellone, $codiceLettino, $codicePedalo, $numeroTavolo);
             $stmt->execute();
     
             return 1; // booking successful
@@ -93,7 +93,7 @@ class Database {
                       FROM ISCRIZIONI I
                       WHERE I.codiceEvento = E.codiceEvento);');
 
-        $stmt->bind_param('ss', $codiceCliente, $codiceEvento);
+        $stmt->bind_param('ii', $codiceCliente, $codiceEvento);
         if($stmt->execute()) {
             return true;
         } else {
@@ -105,7 +105,7 @@ class Database {
     function addEvent($codiceEvento, $codiceStaff, $dataInizio, $dataFine, $numeroPosti) {
         $stmt = $this->conn->prepare('INSERT INTO EVENTI (codiceEvento, codiceStaff, dataInizio, dataFine, numeroPosti)
             VALUES (?, ?, ?, ?, ?)'); 
-        $stmt->bind_param('sssss', $codiceEvento, $codiceStaff, $dataInizio, $dataFine, $numeroPosti);
+        $stmt->bind_param('iissi', $codiceEvento, $codiceStaff, $dataInizio, $dataFine, $numeroPosti);
          if($stmt->execute()) {
              return true;
          } else {
@@ -124,7 +124,7 @@ class Database {
     function insertReview($codiceRecensione, $codiceCliente, $codiceStaff, $mese, $valutazione) {
         $stmt = $this->conn->prepare('INSERT INTO RECENSIONI (codiceRecensione, codiceCliente, codiceStaff, mese, valutazione)
             VALUES (?, ?, ?, ?, ?)');
-        $stmt->bind_param('sssss', $codiceRecensione, $codiceCliente, $codiceStaff, $mese, $valutazione);
+        $stmt->bind_param('iiisi', $codiceRecensione, $codiceCliente, $codiceStaff, $mese, $valutazione);
         if($stmt->execute()) {
             return true;
         } else {
