@@ -47,38 +47,38 @@ class Database {
     //O3
 
     function bookUmbrella($codiceCliente, $dataInizio, $dataFine, $mese, $codiceLettino, $codicePedalo, $numeroTavolo) {
-        $stmt = $this->conn->prepare('SELECT o.codiceOmbrellone
-            FROM OMBRELLONI o
-            WHERE o.codiceOmbrellone NOT IN (
-                SELECT t.codiceOmbrellone
-                FROM PRENOTAZIONI p
-                JOIN TIPOLOGIE t ON t.codicePrenotazione = p.codicePrenotazione
-                WHERE p.dataInizio <= ? AND p.dataFine >= ?
-            )
-        ');
+        $stmt = $this->conn->prepare("START TRANSACTION;
+                                        DECLARE CONTINUE HANDLER FOR SQLEXCEPTION 
+                                        BEGIN 
+                                        ROLLBACK; 
+                                        SELECT 'Error during the booking process' AS error_message; 
+                                        END;
+                                    SELECT O.codiceOmbrellone
+                                    INTO @ombrelloneDisponibile
+                                    FROM OMBRELLONI O
+                                    WHERE O.codiceOmbrellone NOT IN (
+                                        SELECT T.codiceOmbrellone
+                                        FROM PRENOTAZIONI P
+                                        JOIN TIPOLOGIE T ON T.codicePrenotazione = P.codicePrenotazione
+                                        WHERE P.dataInizio <= ? AND P.dataFine >= ?
+                                    )
+                                    LIMIT 1
+                                    FOR UPDATE;
+
+                                    INSERT INTO PRENOTAZIONI (codicePrenotazione, codiceCliente, dataInizio, dataFine, mese)
+                                    VALUES (?, ?, ?, ?, ?);
+
+                                    INSERT INTO TIPOLOGIE (codicePrenotazione, codiceOmbrellone, codiceLettino, codicePedalo, numeroTavolo)
+                                    VALUES (LAST_INSERT_ID(), @ombrelloneDisponibile, ?, ?, ?);
+                                    COMMIT;
+                                ");
     
-        $stmt->bind_param('ss', $dataInizio, $dataFine);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $stmt->bind_param('ssiisssiiii', $dataInizio, $dataFine, $codicePrenotazione, $codiceCliente, $dataInizio, $dataFine, $mese, $codiceOmbrellone, $codiceLettino, $codicePedalo, $numeroTavolo);
     
-        if ($result->num_rows > 0) {
-            $stmt = $this->conn->prepare('
-                INSERT INTO PRENOTAZIONI (codicePrenotazione, codiceCliente, dataInizio, dataFine, mese)
-                VALUES (?, ?, ?, ?, ?);
-            ');
-            $stmt->bind_param('iisss', $codicePrenotazione, $codiceCliente, $dataInizio, $dataFine, $mese);
-            $stmt->execute();
-    
-            $stmt = $this->conn->prepare('
-                INSERT INTO TIPOLOGIE (codiceOmbrellone, codiceLettino, codicePedalo, numeroTavolo)
-                VALUES ((SELECT MAX(codicePrenotazione) FROM PRENOTAZIONI), ?, ?, ?, ?);
-            ');
-            $stmt->bind_param('iiii', $codiceOmbrellone, $codiceLettino, $codicePedalo, $numeroTavolo);
-            $stmt->execute();
-    
-            return 1; // booking successful
+        if($stmt->execute()) {
+            return true;
         } else {
-            return 0; // no available umbrella
+            return false;
         }
     }
 
