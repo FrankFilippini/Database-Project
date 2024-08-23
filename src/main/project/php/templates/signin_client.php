@@ -1,14 +1,14 @@
 <nav>
-    <ul><li id="signin">Sign in</li><li id="signup"><a href="signup_client.html">Sign up</a></li></ul>
+    <ul><li id="signin">Sign in</li><li id="signup"><a href="templates/signup_client.php">Sign up</a></li></ul>
 </nav>
 <header>
     <h1>Starfish</h1>
 </header>
 <nav>
-    <ul><li id="client"><a href="signin_client.html">Client</a></li><li id="staff"><a href="signin_staff.html">Staff area</a></li></ul>
+    <ul><li id="client"><a href="signin_client.php">Client</a></li><li id="staff"><a href="signin_staff.html">Staff area</a></li></ul>
 </nav>
 <main>
-    <img src="../../../../starfish.jpg" alt=""/>
+    <img src="../images/starfish.jpg" alt=""/>
     <form action="#" method="POST">
         <h2>Login</h2>
         <ul>

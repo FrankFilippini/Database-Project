@@ -4,13 +4,13 @@
         <title><?php echo "Starfish - ".$templateParams['title']; ?></title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <base href="<?php echo DIR_BASE; ?>">
+        
         <link rel="icon" type="image/x-icon" href="../../../../starfish.jpg">
         <?php
             if (isset($templateParams['css'])) {
                 foreach ($templateParams['css'] as $key => $value) {
                     ?>
-                    <link href="../../css/<?php echo $value ?>" rel="stylesheet" type="text/css"/>
+                    <link href="../css/<?php echo $value ?>" rel="stylesheet" type="text/css"/>
                     <?php
                 }
             }
@@ -28,7 +28,7 @@
     <body>
         <?php
             if (isset($templateParams['page'])) {
-                require($templateParams['page']);
+                require_once('templates/signin_client.php');
             } else {
                 die('Unspecified PHP page in body tag');
             }
