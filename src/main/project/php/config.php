@@ -3,5 +3,5 @@
 
     require_once('database/Database.php');
     $db = new Database('localhost', 'root', '', 'Starfish', 3306);
-
+    $templateParams = array();
 ?>

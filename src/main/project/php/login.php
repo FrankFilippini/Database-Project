@@ -11,8 +11,8 @@
         $templateParams['page'] = 'signin_client.php';
     } else /* if ($_GET['page'] === 'signup') */ {
         $templateParams['title'] = 'Sign Up';
-        //$templateParams['css'][] = 'signup_client.css';
-        $templateParams['page'] = 'signup.php';
+        $templateParams['css'][] = 'signup.css';
+        $templateParams['page'] = 'signup_client.php';
     }
 
     require('templates/base.php');

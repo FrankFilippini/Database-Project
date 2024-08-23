@@ -1,6 +1,6 @@
 <?php
     require_once('config.php');
-    $_GET['page'] == 'signin';
+    $_GET['page'] = 'signin';
 
     require_once('login.php');
     

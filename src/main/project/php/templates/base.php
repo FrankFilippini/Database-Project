@@ -28,7 +28,7 @@
     <body>
         <?php
             if (isset($templateParams['page'])) {
-                require_once('templates/signin_client.php');
+                require_once('templates/'.$templateParams['page']);
             } else {
                 die('Unspecified PHP page in body tag');
             }
