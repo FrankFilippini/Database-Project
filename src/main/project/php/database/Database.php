@@ -31,6 +31,22 @@ class Database {
         return false;
     }
 
+    function userLogin($email, $password) {
+        if ($stmt = $this->conn->prepare('SELECT `email`, `password`
+                                          FROM `CLIENTI`
+                                          WHERE `email` = ?;')) {
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($email, $password);
+            $stmt->fetch();
+            if ($stmt->num_rows == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // O2
     function staffRegister($idTurno, $CF, $nome, $cognome, $email, $password) {
         $profileName = 'default.svg';
