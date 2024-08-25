@@ -5,6 +5,10 @@
     || ($_GET['page'] !== 'signin' && $_GET['page'] !== 'signup')) {
        
     }
+
+    if (isset($_POST['email'])) {
+        link_to('reservation.php');
+    }
     if ($_GET['page'] === 'signin') {
         $templateParams['title'] = 'Sign In';
         $templateParams['css'][] = 'signin.css';
