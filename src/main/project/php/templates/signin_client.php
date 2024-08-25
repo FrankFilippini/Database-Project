@@ -1,11 +1,11 @@
 <nav>
-    <ul><li id="signin">Sign in</li><li id="signup"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?page=signup">Sign up</a></li></ul>
+    <ul><li id="signin">Sign in</li><li id="signup"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?page=signup-client">Sign up</a></li></ul>
 </nav>
 <header>
     <h1>Starfish</h1>
 </header>
 <nav>
-    <ul><li id="client"><a href="signin_client.php">Client</a></li><li id="staff"><a href="signin_staff.html">Staff area</a></li></ul>
+    <ul><li id="client"><a href="#">Client</a></li><li id="staff"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?page=signin-staff">Staff area</a></li></ul>
 </nav>
 <main>
     <img src="../images/starfish.jpg" alt=""/>
