@@ -12,6 +12,9 @@
         $templateParams['title'] = 'Sign Up - Client';
         $templateParams['css'][] = 'signup.css';
         $templateParams['page'] = 'signup_client.php';
+        if (isset($_POST['pwd1'])) {
+            $db->clientRegister($_POST['CF'],$_POST['name'],$_POST['surname'],$_POST['email'],$_POST['phone'],$_POST['pwd1']);
+        }
     }  else if($_GET['page'] === 'signin-staff') {
         $templateParams['title'] = 'Sign In - Staff';
         $templateParams['css'][] = 'signin.css';
