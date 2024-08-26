@@ -31,10 +31,24 @@ class Database {
         return false;
     }
 
-    function userLogin($email, $password) {
+    // O2
+    function staffRegister($idTurno, $CF, $nome, $cognome, $email, $password) {
+        $profileName = 'default.svg';
+        $stmt = $this->conn->prepare('INSERT INTO `MEMBRI` (`idTurno`, `CF`, `nome`, `cognome`, `email`, `password`)
+                                        VALUES (?, ?, ?, ?, ?, ?)');
+        $stmt->bind_param('isssss', $idTurno, $CF, $nome, $cognome, $email, $password);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    //login Client
+    function clientLogin($email, $password) {
         if ($stmt = $this->conn->prepare('SELECT `email`, `password`
-                                          FROM `CLIENTI`
-                                          WHERE `email` = ?;')) {
+                                            FROM `CLIENTI`
+                                            WHERE `email` = ?;')) {
             $stmt->bind_param('s', $email);
             $stmt->execute();
             $stmt->store_result();
@@ -47,17 +61,21 @@ class Database {
         return false;
     }
 
-    // O2
-    function staffRegister($idTurno, $CF, $nome, $cognome, $email, $password) {
-        $profileName = 'default.svg';
-        $stmt = $this->conn->prepare('INSERT INTO `MEMBRI` (`idTurno`, `CF`, `nome`, `cognome`, `email`, `password`)
-                                        VALUES (?, ?, ?, ?, ?, ?)');
-        $stmt->bind_param('isssss', $idTurno, $CF, $nome, $cognome, $email, $password);
-
-        if ($stmt->execute()) {
-            return true;
+    //login Staff
+    function staffLogin($email, $password) {
+        if ($stmt = $this->conn->prepare('SELECT `email`, `password`
+                                            FROM `MEMBRI`
+                                            WHERE `email` = ?;')) {
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($email, $password);
+            $stmt->fetch();
+            if ($stmt->num_rows == 1) {
+                return true;
+            }
         }
-        return false;
+        return false;        
     }
 
     //O3
