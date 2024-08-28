@@ -33,7 +33,7 @@
         $templateParams['css'][] = 'signup.css';
         $templateParams['page'] = 'signup_staff.php';
         if (isset($_POST['pwd1'])) {
-            if($db->staffRegister(1, $_POST['CF'], $_POST['name'], $_POST['surname'], $_POST['email'], $_POST['pwd1'])) {
+            if($db->staffRegister($_POST['CF'], $_POST['name'], $_POST['surname'], $_POST['email'], $_POST['pwd1'])) {
                 link_to('list_reservations.php');
             }
         }

@@ -32,11 +32,10 @@ class Database {
     }
 
     // O2
-    function staffRegister($idTurno, $CF, $nome, $cognome, $email, $password) {
-        $profileName = 'default.svg';
-        $stmt = $this->conn->prepare('INSERT INTO `MEMBRI` (`idTurno`, `CF`, `nome`, `cognome`, `email`, `password`)
-                                        VALUES (?, ?, ?, ?, ?, ?)');
-        $stmt->bind_param('isssss', $idTurno, $CF, $nome, $cognome, $email, $password);
+    function staffRegister($CF, $nome, $cognome, $email, $password) {
+        $stmt = $this->conn->prepare('INSERT INTO `MEMBRI` (`CF`, `nome`, `cognome`, `email`, `password`)
+                                        VALUES (?, ?, ?, ?, ?)');
+        $stmt->bind_param('sssss', $CF, $nome, $cognome, $email, $password);
 
         if ($stmt->execute()) {
             return true;
