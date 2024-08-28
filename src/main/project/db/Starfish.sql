@@ -46,10 +46,13 @@ CREATE TABLE `CLIENTI` (
 
 CREATE TABLE `EVENTI` (
      `codiceEvento` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-     `dataInizio` DATETIME NOT NULL,
-     `dataFine` DATETIME NOT NULL,
+     `dataInizio` DATE NOT NULL,
+     `dataFine` DATE NOT NULL,
      `numeroPosti` INT UNSIGNED,
      `codiceStaff` INT UNSIGNED NOT NULL,
+     -- `tipoEvento` ENUM('serata', 'torneo') NOT NULL,
+     `tipoEvento` VARCHAR(50) NOT NULL,
+     `nomeEvento` VARCHAR(50) NOT NULL,
      CONSTRAINT `ID_EVENTO_PK` PRIMARY KEY (`codiceEvento`));
 
 CREATE TABLE `ISCRIZIONI` (

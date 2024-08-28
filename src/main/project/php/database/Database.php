@@ -136,15 +136,16 @@ class Database {
     }
 
     //O5
-    function addEvent($codiceStaff, $dataInizio, $dataFine, $numeroPosti) {
-        $stmt = $this->conn->prepare('INSERT INTO `EVENTI` (`codiceStaff`, `dataInizio`, `dataFine`, `numeroPosti`)
-            VALUES (?, ?, ?, ?, ?)'); 
-        $stmt->bind_param('issi', $codiceStaff, $dataInizio, $dataFine, $numeroPosti);
-         if($stmt->execute()) {
-             return true;
-         } else {
-             return false;
-         }
+    function addEvent($dataInizio, $dataFine, $numeroPosti, $codiceStaff, $tipoEvento, $nomeEvento) {
+        $stmt = $this->conn->prepare('INSERT INTO `EVENTI` (`dataInizio`, `dataFine`, `numeroPosti`, `codiceStaff`, `tipoEvento`, `nomeEvento`)
+            VALUES (?, ?, ?, ?, ?, ?)'); 
+        $stmt->bind_param('ssiiss',  $dataInizio, $dataFine, $numeroPosti, $codiceStaff, $tipoEvento, $nomeEvento);
+        if($stmt->execute()) {
+            return true;
+        } else {
+            var_dump($stmt->error);
+            return false;
+        }
     }
 
     //O6

@@ -16,7 +16,4 @@
         exit;
     }
 
-    if ($_SERVER['SCRIPT_NAME'] !== DIR_BASE.'index.php' && $_SERVER['SCRIPT_NAME'] !== DIR_BASE.'login.php') {
-        link_to('');
-    }
 ?>

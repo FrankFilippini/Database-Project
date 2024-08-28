@@ -1,7 +1,7 @@
 ## GENERAL ##
 
 docs/
-tmp/
+src/main/project/tmp/
 logs/
 resources/users/
 
