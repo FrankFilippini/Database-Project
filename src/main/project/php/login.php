@@ -6,7 +6,12 @@
         $templateParams['css'][] = 'signin.css';
         $templateParams['page'] = 'signin_client.php';
         if(isset($_POST['email'])) {
+            $templateParams['email'] = $_POST['email'];
             if($db->clientLogin($_POST['email'], $_POST['pwd'])) {
+                $templateParams['clientId'] = $db->getClientId($templateParams['email']);
+                session_start();
+                $_SESSION['clientId'] = $templateParams['clientId'];
+                echo $_SESSION['clientId'];
                 link_to('reservation.php');
             }
         }

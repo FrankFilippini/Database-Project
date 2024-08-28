@@ -60,6 +60,24 @@ class Database {
         return false;
     }
 
+    function getClientId($email) {
+        if ($stmt = $this->conn->prepare('SELECT `codiceCliente`
+                                            FROM `CLIENTI`
+                                            WHERE `email` = ?;')) 
+        {
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            if ($row) {
+                return $row['codiceCliente'];
+            } else {
+                return false;
+            }
+        } 
+        return false;
+    }
+
     //login Staff
     function staffLogin($email, $password) {
         if ($stmt = $this->conn->prepare('SELECT `email`, `password`
@@ -163,6 +181,17 @@ class Database {
             var_dump($stmt->error);
             return false;
         }
+    }
+
+    function getEventsList() {
+        $stmt = $this->conn->prepare('SELECT * FROM `EVENTI`');
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $eventsList = array();
+        while ($row = $result->fetch_assoc()) {
+            $eventsList[] = $row;
+        }
+        return $eventsList;
     }
 
     //O6
