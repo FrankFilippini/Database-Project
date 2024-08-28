@@ -9,7 +9,7 @@
     <ul><li id="client"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?page=signin-client">Client</a></li><li id="staff"><a href="#">Staff area</a></li></ul>
 </nav>
 <main>
-    <img src="../../../../starfish.jpg" alt=""/>
+    <img src="../images/starfish.jpg" alt=""/>
     <form action="#" method="POST">
         <h2>Sign in Staff</h2>
         <ul>

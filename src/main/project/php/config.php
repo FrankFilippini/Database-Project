@@ -8,7 +8,6 @@
 
     require_once('database/Database.php');
     $db = new Database('localhost', 'root', '', 'Starfish', 3306);
-    $templateParams = array();
 
     // Avoids PATH_INFO insertion, because never used in this website
     if (isset($_SERVER['PATH_INFO'])) {

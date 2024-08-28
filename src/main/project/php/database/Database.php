@@ -64,7 +64,8 @@ class Database {
     function staffLogin($email, $password) {
         if ($stmt = $this->conn->prepare('SELECT `email`, `password`
                                             FROM `MEMBRI`
-                                            WHERE `email` = ?;')) {
+                                            WHERE `email` = ?;'))
+        {
             $stmt->bind_param('s', $email);
             $stmt->execute();
             $stmt->store_result();
@@ -77,8 +78,25 @@ class Database {
         return false;        
     }
 
-    //O3
+    function getStaffId($email) {
+        if ($stmt = $this->conn->prepare('SELECT `codiceStaff`
+                                            FROM `MEMBRI`
+                                            WHERE `email` = ?;')) 
+        {
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            if ($row) {
+                return $row['codiceStaff'];
+            } else {
+                return false;
+            }
+        } 
+        return false;
+    }
 
+    //O3
     function bookUmbrella($codiceCliente, $dataInizio, $dataFine, $mese, $codiceLettino, $codicePedalo, $numeroTavolo) {
         $stmt = $this->conn->prepare("START TRANSACTION;
                                         DECLARE CONTINUE HANDLER FOR SQLEXCEPTION 

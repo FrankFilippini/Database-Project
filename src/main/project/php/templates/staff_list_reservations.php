@@ -3,7 +3,7 @@
     <h2>Clients' reservations</h2>
 </header>
 <nav>
-    <ul><li id="reservationslist"><a href="">Reservations list</a></li><li id="newevent"><a href="new_event.php">Reservations</a></li></ul>
+    <ul><li id="reservationslist"><a href="">Reservations list</a></li><li id="newevent"><a href="new_event.php">Add Event</a></li></ul>
 </nav>
 <main>
     <ul>
