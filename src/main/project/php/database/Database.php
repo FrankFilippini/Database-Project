@@ -115,40 +115,109 @@ class Database {
     }
 
     //O3
-    function bookUmbrella($codiceCliente, $dataInizio, $dataFine, $mese, $codiceLettino, $codicePedalo, $numeroTavolo) {
-        $stmt = $this->conn->prepare("START TRANSACTION;
-                                        DECLARE CONTINUE HANDLER FOR SQLEXCEPTION 
-                                        BEGIN 
-                                        ROLLBACK; 
-                                        SELECT 'Error during the booking process' AS error_message; 
-                                        END;
-                                    SELECT O.`codiceOmbrellone`
-                                    INTO @ombrelloneDisponibile
-                                    FROM `OMBRELLONI` O
-                                    WHERE O.`codiceOmbrellone` NOT IN (
-                                        SELECT T.`codiceOmbrellone`
-                                        FROM `PRENOTAZIONI` P
-                                        JOIN `TIPOLOGIE` T ON T.`codicePrenotazione` = P.`codicePrenotazione`
-                                        WHERE P.`dataInizio` <= ? AND P.`dataFine` >= ?
-                                    )
-                                    LIMIT 1
-                                    FOR UPDATE;
-
-                                    INSERT INTO `PRENOTAZIONI` (`codicePrenotazione`, `codiceCliente`, `dataInizio`, `dataFine`, `mese`)
-                                    VALUES (?, ?, ?, ?, ?);
-
-                                    INSERT INTO `TIPOLOGIE` (`codicePrenotazione`, `codiceOmbrellone`, `codiceLettino`, `codicePedalo`, `numeroTavolo`)
-                                    VALUES (LAST_INSERT_ID(), @ombrelloneDisponibile, ?, ?, ?);
-                                    COMMIT;
-                                ");
+    function newReservation($dataInizio, $dataFine, $codiceCliente, $mese, $codiceOmbrellone, $codiceLettino, $codicePedalo, $numeroTavolo) {
+        // First, insert into PRENOTAZIONI
+        $stmt1 = $this->conn->prepare('INSERT INTO `PRENOTAZIONI`(`dataInizio`, `dataFine`, `codiceCliente`, `mese`)
+                                        VALUES (?, ?, ?, ?)');
+        $stmt1->bind_param('ssis', $dataInizio, $dataFine, $codiceCliente, $mese);
+        $stmt1->execute();
+        $prenotazione_id = $this->conn->insert_id; // Get the ID of the newly inserted record
     
-        $stmt->bind_param('ssiisssiiii', $dataInizio, $dataFine, $codicePrenotazione, $codiceCliente, $dataInizio, $dataFine, $mese, $codiceOmbrellone, $codiceLettino, $codicePedalo, $numeroTavolo);
-    
-        if($stmt->execute()) {
+        // Then, insert into TIPOLOGIE
+        $stmt2 = $this->conn->prepare('INSERT INTO `TIPOLOGIE`(`codicePrenotazione`, `codiceOmbrellone`, `codiceLettino`, `numeroTavolo`, `codicePedalò`)
+                                        VALUES (?, ?, ?, ?, ?)');
+        $stmt2->bind_param('iiiii', $prenotazione_id, $codiceOmbrellone, $codiceLettino, $numeroTavolo, $codicePedalo);
+        if ($stmt2->execute()) {
             return true;
         } else {
             return false;
         }
+    }
+
+    function getOmbrelloni() {
+        $stmt = $this->conn->prepare('SELECT `codiceOmbrellone`
+                                        FROM `OMBRELLONI`
+                                        WHERE NOT EXISTS (
+                                        SELECT 1
+                                        FROM `TIPOLOGIE`
+                                        WHERE `TIPOLOGIE`.`codiceOmbrellone` = `OMBRELLONI`.`codiceOmbrellone`
+                                        )');
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $ombrelloniList = array();
+        while ($row = $result->fetch_assoc()) {
+            $ombrelloniList[] = $row;
+        }
+        if (empty($ombrelloniList)) {
+            $stmt = $this->conn->prepare('SELECT `codiceOmbrellone` FROM `OMBRELLONI`');
+            $stmt->execute();
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $ombrelloniList[] = $row;
+            }
+        }
+        return $ombrelloniList;
+    }
+
+    function getLettini() {
+        $stmt = $this->conn->prepare('SELECT `codiceLettino`
+                                        FROM `LETTINI`
+                                        WHERE NOT EXISTS (
+                                        SELECT 1
+                                        FROM `TIPOLOGIE`
+                                        WHERE `TIPOLOGIE`.`codiceLettino` = `LETTINI`.`codiceLettino`
+                                        )');
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $lettiniList = array();
+        while ($row = $result->fetch_assoc()) {
+            $lettiniList[] = $row;
+        }
+        if (empty($lettiniList)) {
+            $stmt = $this->conn->prepare('SELECT `codiceLettino` FROM `LETTINI`');
+            $stmt->execute();
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $lettiniList[] = $row;
+            }
+        }
+        return $lettiniList;
+    }
+
+    function getPedalo() {
+        $stmt = $this->conn->prepare('SELECT `codicePedalò`
+                                        FROM `PEDALO`
+                                        WHERE NOT EXISTS (
+                                        SELECT 1
+                                        FROM `TIPOLOGIE`
+                                        WHERE `TIPOLOGIE`.`codicePedalò` = `PEDALO`.`codicePedalò`
+                                        )');
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $pedaloList = array();
+        while ($row = $result->fetch_assoc()) {
+            $pedaloList[] = $row;
+        }
+        if (empty($pedaloList)) {
+            $stmt = $this->conn->prepare('SELECT `codicePedalo` FROM `PEDALO`');
+            $stmt->execute();
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $pedaloList[] = $row;
+            }
+        }
+        return $pedaloList;
+    }
+
+    function insertTavolo($numeroPersone) {
+        $stmt = $this->conn->prepare('INSERT INTO `TAVOLI` (`numeroPersone`)
+                                        VALUES (?)');
+        $stmt->bind_param('i', $numeroPersone);
+    
+        if ($stmt->execute()) {
+            return $this->conn->insert_id;
+        }
+        return false;
     }
 
     //O4

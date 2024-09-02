@@ -19,6 +19,43 @@ VALUES ('SLVSPS02R24E123W', 'Salvatore','Esposito','salvatore.esposito@starfish.
 INSERT INTO `MEMBRI`(`CF`,`nome`, `cognome`, `email`, `password`, `giorno`, `mese`) 
 VALUES ('DVDGGN04F30D704Q', 'David','Goggins','david.goggins@starfish.com','test', 5, 6);
 
+
 -- CLIENTE
 INSERT INTO `CLIENTI`(`numeroTelefono`, `CF`, `nome`, `cognome`, `email`, `password`)
 VALUES (1234567890,'NCLNRI99F10G104Q','Nicola','Neri','nicola.neri@gmail.com','test');
+
+INSERT INTO `CLIENTI`(`numeroTelefono`, `CF`, `nome`, `cognome`, `email`, `password`)
+VALUES (1234567890,'DOCNDOVNOIJAO','Alberto','Bianchi','alberto.bianchi@gmail.com','test');
+
+
+-- OMBRELLONI
+INSERT INTO `OMBRELLONI`() VALUES();
+INSERT INTO `OMBRELLONI`() VALUES();
+INSERT INTO `OMBRELLONI`() VALUES();
+INSERT INTO `OMBRELLONI`() VALUES();
+INSERT INTO `OMBRELLONI`() VALUES();
+INSERT INTO `OMBRELLONI`() VALUES();
+INSERT INTO `OMBRELLONI`() VALUES();
+
+-- LETTINI
+INSERT INTO `LETTINI`() VALUES();
+INSERT INTO `LETTINI`() VALUES();
+INSERT INTO `LETTINI`() VALUES();
+INSERT INTO `LETTINI`() VALUES();
+INSERT INTO `LETTINI`() VALUES();
+INSERT INTO `LETTINI`() VALUES();
+
+-- PEDALÒ
+INSERT INTO `PEDALO`() VALUES();
+INSERT INTO `PEDALO`() VALUES();
+INSERT INTO `PEDALO`() VALUES();
+INSERT INTO `PEDALO`() VALUES();
+
+
+
+
+
+-- LISTINI
+
+INSERT INTO `LISTINI`(`mese`, `codiceStaff`)
+VALUES(6,0);

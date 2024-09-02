@@ -10,20 +10,60 @@
         <h3>New Reservation</h3>
         <form action="#" method="post">
             <ul>
-                <li><label for="nome">Nome:</label><input type="text" id="nome" name="nome" required></li>
-                <li><label for="cognome">Cognome:</label><input type="text" id="cognome" name="cognome" required></li>
-                <li><label for="dataInizio">Data di inizio:</label><input type="date" id="dataInizio"></li>
-                <li><label for="dataFine">Data di fine:</label><input type="date" id="dataFine"></li>
-                <li><label for="tipoPrenotazione">Tipologia:</label>
-                    <select name="tipoPrenotazione" id="tipoPrenotazione" required>
-                        <option value="ombrellone" selected>Ombrellone</option>
-                        <option value="lettino">Lettino</option>
-                        <option value="pedalo">Pedalò</option>
+                <li><label for="dataInizio">Data di inizio:</label><input type="date" name="dataInizio" id="dataInizio"></li>
+                <li><label for="dataFine">Data di fine:</label><input type="date" name="dataFine" id="dataFine"></li>
+                <li><label for="tipoPrenotazione">Quale servizio desideri prenotare?:</label></li>
+                <li><label for="ombrellone">Seleziona un ombrellone disponibile:</label>
+                    <select name="prenotazioneOmbrellone" id="ombrellone" required>
+                        <option value="NULL"></option>
+                        <?php foreach($db->getOmbrelloni() as $ombrellone) {
+                            ?> <option value="<?php echo $ombrellone['codiceOmbrellone']; ?>"><?php echo $ombrellone['codiceOmbrellone']; ?></option>
+                            <?php
+                        } ?>
                     </select>
                 </li>
-                <li><label for="telefono">Numero di Telefono:</label><input type="tel" id="telefono" name="telefono" required></li>
+                <li><label for="lettino">Seleziona un lettino disponibile:</label>
+                    <select name="prenotazioneLettino" id="lettino" required>
+                        <option value="NULL"></option>
+                        <?php foreach($db->getLettini() as $lettino) {
+                            ?> <option value="<?php echo $lettino['codiceLettino']; ?>"><?php echo $lettino['codiceLettino']; ?></option>
+                            <?php
+                        } ?>
+                    </select>
+                </li>
+                <li><label for="pedalo">Seleziona un pedalò disponibile:</label>
+                    <select name="prenotazionePedalo" id="pedalo" required>
+                        <option value="NULL"></option>
+                        <?php foreach($db->getPedalo() as $pedalo) {
+                            ?> <option value="<?php echo $pedalo['codicePedalò']; ?>"><?php echo $pedalo['codicePedalò']; ?></option>
+                            <?php
+                        } ?>
+                    </select>
+                </li>
+                <li>
+                <label>Vuoi prenotare un tavolo?</label>
+                <input type="radio" id="si" name="prenotazioneTavolo" value="si" onclick="showTavoloSelector()">
+                <label for="si">Sì</label>
+                <input type="radio" id="no" name="prenotazioneTavolo" value="no" onclick="hideTavoloSelector()">
+                <label for="no">No</label></li>
+                <li>
+                <div id="tavolo-selector" style="display: none;">
+                    <label for="numeroPersone">Numero di persone:</label>
+                    <input type="number" name="numeroPersone" id="numeroPersone" min="1" required>
+                </div>
+                </li>
+                
                 <li><button type="submit">Prenota</button></li>
             </ul>
         </form>
     </section>
 </main>
+<script>
+    function showTavoloSelector() {
+        document.getElementById("tavolo-selector").style.display = "block";
+    }
+
+    function hideTavoloSelector() {
+        document.getElementById("tavolo-selector").style.display = "none";
+    }
+</script>
