@@ -43,7 +43,103 @@ class Database {
         return false;
     }
 
-    //login Client
+    //O3
+    function newReservation($dataInizio, $dataFine, $codiceCliente, $mese, $codiceOmbrellone, $codiceLettino, $codicePedalo, $numeroTavolo) {
+        // First, insert into PRENOTAZIONI
+        $stmt1 = $this->conn->prepare('INSERT INTO `PRENOTAZIONI`(`dataInizio`, `dataFine`, `codiceCliente`, `mese`)
+                                        VALUES (?, ?, ?, ?)');
+        $stmt1->bind_param('ssis', $dataInizio, $dataFine, $codiceCliente, $mese);
+        $stmt1->execute();
+        $prenotazione_id = $this->conn->insert_id; // Get the ID of the newly inserted record
+    
+        // Then, insert into TIPOLOGIE
+        $stmt2 = $this->conn->prepare('INSERT INTO `TIPOLOGIE`(`codicePrenotazione`, `codiceOmbrellone`, `codiceLettino`, `numeroTavolo`, `codicePedalò`)
+                                        VALUES (?, ?, ?, ?, ?)');
+        $stmt2->bind_param('iiiii', $prenotazione_id, $codiceOmbrellone, $codiceLettino, $numeroTavolo, $codicePedalo);
+        if ($stmt2->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //O4
+    function bookEvent($codiceCliente, $codiceEvento) {
+        $stmt = $this->conn->prepare('INSERT INTO `ISCRIZIONI` (`codiceCliente`, `codiceEvento`)
+            SELECT C.`codiceCliente`, E.`codiceEvento`
+            FROM `CLIENTI` C, `EVENTI` E
+            WHERE C.`codiceCliente` = ? 
+            AND E.`codiceEvento` = ?
+            AND E.`numeroPosti` > (SELECT COUNT(*)
+                      FROM `ISCRIZIONI` I
+                      WHERE I.`codiceEvento` = E.`codiceEvento`);');
+
+        $stmt->bind_param('ii', $codiceCliente, $codiceEvento);
+        if($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //O5
+    function addEvent($dataInizio, $dataFine, $numeroPosti, $codiceStaff, $tipoEvento, $nomeEvento) {
+        $stmt = $this->conn->prepare('INSERT INTO `EVENTI` (`dataInizio`, `dataFine`, `numeroPosti`, `codiceStaff`, `tipoEvento`, `nomeEvento`)
+            VALUES (?, ?, ?, ?, ?, ?)'); 
+        $stmt->bind_param('ssiiss',  $dataInizio, $dataFine, $numeroPosti, $codiceStaff, $tipoEvento, $nomeEvento);
+        if($stmt->execute()) {
+            return true;
+        } else {
+            var_dump($stmt->error);
+            return false;
+        }
+    }
+
+    //O6
+    function getListReservations() {
+        $stmt = $this->conn->prepare('SELECT * FROM `PRENOTAZIONI`');
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $reservationsList = array();
+        while ($row = $result->fetch_assoc()) {
+            $reservationsList[] = $row;
+        }
+        return $reservationsList;
+    }
+
+    //O7
+    function insertReview($codiceCliente, $codiceStaff, $mese, $valutazione) {
+        $stmt = $this->conn->prepare('INSERT INTO `RECENSIONI` (`codiceCliente`, `codiceStaff`, `mese`, `valutazione`)
+            VALUES (?, ?, ?, ?)');
+        $stmt->bind_param('iisi',$codiceCliente, $codiceStaff, $mese, $valutazione);
+        if($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //O8
+    function getBestRatedStaffMembers() {
+
+    }
+
+    //O9
+    function getWorstRatedStaffMembers() {
+
+    }
+
+    //O10
+    function getBestClients() {
+
+    }
+
+    //O11
+    function getBestWorker() {
+
+    }
+
+    //FUNZIONI DI APPOGGIO
     function clientLogin($email, $password) {
         if ($stmt = $this->conn->prepare('SELECT `email`, `password`
                                             FROM `CLIENTI`
@@ -130,26 +226,6 @@ class Database {
         return false;
     }
 
-    //O3
-    function newReservation($dataInizio, $dataFine, $codiceCliente, $mese, $codiceOmbrellone, $codiceLettino, $codicePedalo, $numeroTavolo) {
-        // First, insert into PRENOTAZIONI
-        $stmt1 = $this->conn->prepare('INSERT INTO `PRENOTAZIONI`(`dataInizio`, `dataFine`, `codiceCliente`, `mese`)
-                                        VALUES (?, ?, ?, ?)');
-        $stmt1->bind_param('ssis', $dataInizio, $dataFine, $codiceCliente, $mese);
-        $stmt1->execute();
-        $prenotazione_id = $this->conn->insert_id; // Get the ID of the newly inserted record
-    
-        // Then, insert into TIPOLOGIE
-        $stmt2 = $this->conn->prepare('INSERT INTO `TIPOLOGIE`(`codicePrenotazione`, `codiceOmbrellone`, `codiceLettino`, `numeroTavolo`, `codicePedalò`)
-                                        VALUES (?, ?, ?, ?, ?)');
-        $stmt2->bind_param('iiiii', $prenotazione_id, $codiceOmbrellone, $codiceLettino, $numeroTavolo, $codicePedalo);
-        if ($stmt2->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     function getOmbrelloni() {
         $stmt = $this->conn->prepare('SELECT `codiceOmbrellone`
                                         FROM `OMBRELLONI`
@@ -229,43 +305,11 @@ class Database {
         $stmt = $this->conn->prepare('INSERT INTO `TAVOLI` (`numeroPersone`)
                                         VALUES (?)');
         $stmt->bind_param('i', $numeroPersone);
-    
+
         if ($stmt->execute()) {
             return $this->conn->insert_id;
         }
         return false;
-    }
-
-    //O4
-    function bookEvent($codiceCliente, $codiceEvento) {
-        $stmt = $this->conn->prepare('INSERT INTO `ISCRIZIONI` (`codiceCliente`, `codiceEvento`)
-            SELECT C.`codiceCliente`, E.`codiceEvento`
-            FROM `CLIENTI` C, `EVENTI` E
-            WHERE C.`codiceCliente` = ? 
-            AND E.`codiceEvento` = ?
-            AND E.`numeroPosti` > (SELECT COUNT(*)
-                      FROM `ISCRIZIONI` I
-                      WHERE I.`codiceEvento` = E.`codiceEvento`);');
-
-        $stmt->bind_param('ii', $codiceCliente, $codiceEvento);
-        if($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    //O5
-    function addEvent($dataInizio, $dataFine, $numeroPosti, $codiceStaff, $tipoEvento, $nomeEvento) {
-        $stmt = $this->conn->prepare('INSERT INTO `EVENTI` (`dataInizio`, `dataFine`, `numeroPosti`, `codiceStaff`, `tipoEvento`, `nomeEvento`)
-            VALUES (?, ?, ?, ?, ?, ?)'); 
-        $stmt->bind_param('ssiiss',  $dataInizio, $dataFine, $numeroPosti, $codiceStaff, $tipoEvento, $nomeEvento);
-        if($stmt->execute()) {
-            return true;
-        } else {
-            var_dump($stmt->error);
-            return false;
-        }
     }
 
     function getEventsList() {
@@ -278,32 +322,5 @@ class Database {
         }
         return $eventsList;
     }
-
-    //O6
-
-    function getListReservations() {
-        $stmt = $this->conn->prepare('SELECT * FROM `PRENOTAZIONI`');
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $reservationsList = array();
-        while ($row = $result->fetch_assoc()) {
-            $reservationsList[] = $row;
-        }
-        return $reservationsList;
-    }
-
-    //O7
-
-    function insertReview($codiceCliente, $codiceStaff, $mese, $valutazione) {
-        $stmt = $this->conn->prepare('INSERT INTO `RECENSIONI` (`codiceCliente`, `codiceStaff`, `mese`, `valutazione`)
-            VALUES (?, ?, ?, ?)');
-        $stmt->bind_param('iisi',$codiceCliente, $codiceStaff, $mese, $valutazione);
-        if($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
-
 ?>
