@@ -7,9 +7,14 @@
 </nav>
 <main>
     <ul>
-        <li><img src="../../../../ombrellone.jpeg" alt="reservation_image">Mario Rossi: DATA - 1 ombrellone, 1 lettino, etc...</li>
-        <li><img src="../../../../ombrellone.jpeg" alt="reservation_image">Silvia Verdi: DATA - 1 ombrellone, 1 lettino, etc...</li>
-        <li><img src="../../../../ombrellone.jpeg" alt="reservation_image">Mario Rossi: DATA - 1 ombrellone, 1 lettino, etc...</li>
-        <li><img src="../../../../ombrellone.jpeg" alt="reservation_image">Silvia Verdi: DATA - 1 ombrellone, 1 lettino, etc...</li>
+    <?php
+            foreach($db->getListReservations() as $reservations) {
+                ?>
+                <li>Prenotazione: <?php echo $reservations['codicePrenotazione'].' - ';?> Cliente: <?php foreach($db->getClientInfo($reservations['codiceCliente']) as $client) {
+                    echo $client['nome'].' '.$client['cognome'].',';
+                } ?> Data: <?php echo $reservations['dataInizio'].' '.$reservations['dataFine'];?> Mese: <?php echo '  '.$reservations['mese']?></li>
+                <?php
+            }
+        ?>
     </ul>
 </main>

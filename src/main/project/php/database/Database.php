@@ -78,6 +78,22 @@ class Database {
         return false;
     }
 
+    function getClientInfo($id) {
+        if ($stmt = $this->conn->prepare('SELECT *
+                                            FROM `CLIENTI`
+                                            WHERE `codiceCliente` = ?;')) 
+        {
+            $stmt->bind_param('i', $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $clientsList = array();
+            while ($row = $result->fetch_assoc()) {
+                $clientsList[] = $row;
+            }
+        } 
+        return $clientsList;
+    }
+
     //login Staff
     function staffLogin($email, $password) {
         if ($stmt = $this->conn->prepare('SELECT `email`, `password`
@@ -265,8 +281,15 @@ class Database {
 
     //O6
 
-    function listReservations() {
-
+    function getListReservations() {
+        $stmt = $this->conn->prepare('SELECT * FROM `PRENOTAZIONI`');
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $reservationsList = array();
+        while ($row = $result->fetch_assoc()) {
+            $reservationsList[] = $row;
+        }
+        return $reservationsList;
     }
 
     //O7

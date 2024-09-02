@@ -91,8 +91,8 @@ CREATE TABLE `PEDALO` (
      CONSTRAINT `ID_PEDALO_PK` PRIMARY KEY (`codicePedalò`));
 
 CREATE TABLE `PRENOTAZIONI` (
-     `dataInizio` DATETIME NOT NULL,
-     `dataFine` DATETIME NOT NULL,
+     `dataInizio` DATE NOT NULL,
+     `dataFine` DATE NOT NULL,
      `codicePrenotazione` INT UNSIGNED NOT NULL AUTO_INCREMENT,
      `codiceCliente` INT UNSIGNED NOT NULL,
      `mese` INT UNSIGNED NOT NULL CHECK (`mese` BETWEEN 1 AND 12),
