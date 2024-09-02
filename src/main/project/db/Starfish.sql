@@ -105,7 +105,7 @@ CREATE TABLE `RECENSIONI` (
      `codiceStaff` INT UNSIGNED NOT NULL,
      `mese` INT UNSIGNED NOT NULL CHECK (`mese` BETWEEN 1 AND 12),
      CONSTRAINT `ID_RECENSIONI_PK` PRIMARY KEY (`codiceRecensione`),
-     CONSTRAINT `FKR_ID` UNIQUE (`codiceCliente`));
+     CONSTRAINT `FKR_ID` UNIQUE (`codiceCliente`));      /* TODO: teniamo il fatto che un cliente può fare una sola recensione ?? */
 
 CREATE TABLE `STORICO_RECENSIONI` (
      `mese` INT UNSIGNED NOT NULL CHECK (`mese` BETWEEN 1 AND 12),
