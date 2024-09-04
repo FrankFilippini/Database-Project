@@ -109,9 +109,9 @@ class Database {
 
     //O7
     function insertReview($codiceCliente, $codiceStaff, $mese, $valutazione) {
-        $stmt = $this->conn->prepare('INSERT INTO `RECENSIONI` (`codiceCliente`, `codiceStaff`, `mese`, `valutazione`)
+        $stmt = $this->conn->prepare('INSERT INTO `RECENSIONI` (`codiceCliente`,`valutazione`, `codiceStaff`, `mese`)
             VALUES (?, ?, ?, ?)');
-        $stmt->bind_param('iisi',$codiceCliente, $codiceStaff, $mese, $valutazione);
+        $stmt->bind_param('iiii',$codiceCliente, $valutazione, $codiceStaff, $mese);
         if($stmt->execute()) {
             return true;
         } else {
@@ -321,6 +321,47 @@ class Database {
             $eventsList[] = $row;
         }
         return $eventsList;
+    }
+
+    function getReservationsFromId($id) {
+        if ($stmt = $this->conn->prepare('SELECT * FROM `PRENOTAZIONI` WHERE `codiceCliente` = ?')) {
+            $stmt->bind_param('i', $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $reservations = array();
+            while ($row = $result->fetch_assoc()) {
+                $reservations[] = $row;
+            }
+            if (!empty($reservations)) {
+                return $reservations;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    function getMembersByDate($date_input) {
+        $date_parts = explode('-', $date_input);
+        $day = $date_parts[2];
+        $month = $date_parts[1];
+      
+        $stmt = $this->conn->prepare("SELECT * 
+                                 FROM MEMBRI 
+                                 WHERE giorno = ? AND mese = ?");
+      
+        $stmt->bind_param("ii", $day, $month);
+      
+        $stmt->execute();
+      
+        $result = $stmt->get_result();
+        $members = array();
+        while ($row = $result->fetch_assoc()) {
+          $members[] = $row;
+        }
+      
+        $stmt->close();
+      
+        return $members;
     }
 }
 ?>

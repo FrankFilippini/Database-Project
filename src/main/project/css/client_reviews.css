@@ -1,0 +1,29 @@
+@import url('global.css');
+@import url('menu.css');
+
+body > nav > ul > li#reviews {
+    background-color: var(--moonstone-opaque);
+}
+
+main > ul > li {
+    list-style: none;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: auto;
+    margin-bottom: 0.5%;
+    margin-right: 4%;
+}
+
+main > p {
+    text-align: center;
+    font-weight: bold;
+}
+
+main > ul > li > form > ul > li {
+    list-style: none;
+    text-decoration: none;
+    padding-left: 1%;
+}
+
+
+

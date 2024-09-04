@@ -3,7 +3,7 @@
     <h2>Partecipa ai nostri eventi</h2>
 </header>
 <nav>
-    <ul><li id="home"><a href="home.html">Home</a></li><li id="reservations"><a href="reservation.php">Reservations</a></li><li id="events"><a href="event.php">Events</a></li></ul>
+    <ul><li id="reviews"><a href="reviews.php">Reviews</a></li><li id="reservations"><a href="reservation.php">Reservations</a></li><li id="events"><a href="event.php">Events</a></li></ul>
 </nav>
 <main>
     <section>
