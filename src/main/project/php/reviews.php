@@ -6,7 +6,7 @@ $templateParams['css'][] = 'client_reviews.css';
 session_start();
 $clientId = $_SESSION['clientId'];
 $templateParams['clientId'] = $_SESSION['clientId'];
-$templateParams['reservations'] = $db->getReservationsFromId($clientId);
+// $templateParams['reservations'] = $db->getReservationsFromId($clientId);
 
 //TODO Inserire funzione per ricavare il mese
 if(isset($_POST['invia'])) {

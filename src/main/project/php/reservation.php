@@ -5,12 +5,22 @@
     $templateParams['css'][] = 'newreservation.css';
     session_start();
     $clientId = $_SESSION['clientId'];
-    if(isset($_POST['prenotazioneOmbrellone'])) {
-        if(isset($_POST['prenotazioneTavolo'])) {
-            $codiceTavolo = $db->insertTavolo($_POST['numeroPersone']);
-        }
-        if($db->newReservation($_POST['dataInizio'], $_POST['dataFine'], $_SESSION['clientId'], 6, $_POST['prenotazioneOmbrellone'], $_POST['prenotazioneLettino'], $_POST['prenotazionePedalo'], $codiceTavolo) ) {
-            echo "Prenotazione avvenuta con successo";
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_POST['dataInizio'] <= $_POST['dataFine']) {
+            if(isset($_POST['prenotazioneOmbrellone']) || isset($_POST['prenotazionePedalo']) || isset($_POST['prenotazioneLettino'])) {
+                if(isset($_POST['prenotazioneTavolo'])) {
+                    $codiceTavolo = $db->insertTavolo($_POST['numeroPersone']);
+                } else {
+                    $codiceTavolo = NULL;
+                }
+                $date_arr = explode('-',$_POST['dataInizio']);
+                $month = intval($date_arr[1]);
+                if($db->newReservation($_POST['dataInizio'], $_POST['dataFine'], $_SESSION['clientId'], $month, $_POST['prenotazioneOmbrellone'], $_POST['prenotazioneLettino'], $_POST['prenotazionePedalo'], $codiceTavolo) ) {
+                    echo "Prenotazione avvenuta con successo";
+                }
+            }
+        }else {
+            echo 'La data di inizio deve essere precedente alla data di fine.';
         }
     }
     require_once('templates/base.php');

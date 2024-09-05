@@ -14,7 +14,7 @@
                 <li><label for="dataFine">Data di fine:</label><input type="date" name="dataFine" id="dataFine"></li>
                 <li><label for="tipoPrenotazione">Quale servizio desideri prenotare?:</label></li>
                 <li><label for="ombrellone">Seleziona un ombrellone disponibile:</label>
-                    <select name="prenotazioneOmbrellone" id="ombrellone" required>
+                    <select name="prenotazioneOmbrellone" id="ombrellone">
                         <option value="NULL"></option>
                         <?php foreach($db->getOmbrelloni() as $ombrellone) {
                             ?> <option value="<?php echo $ombrellone['codiceOmbrellone']; ?>"><?php echo $ombrellone['codiceOmbrellone']; ?></option>
@@ -23,7 +23,7 @@
                     </select>
                 </li>
                 <li><label for="lettino">Seleziona un lettino disponibile:</label>
-                    <select name="prenotazioneLettino" id="lettino" required>
+                    <select name="prenotazioneLettino" id="lettino">
                         <option value="NULL"></option>
                         <?php foreach($db->getLettini() as $lettino) {
                             ?> <option value="<?php echo $lettino['codiceLettino']; ?>"><?php echo $lettino['codiceLettino']; ?></option>
@@ -32,7 +32,7 @@
                     </select>
                 </li>
                 <li><label for="pedalo">Seleziona un pedalò disponibile:</label>
-                    <select name="prenotazionePedalo" id="pedalo" required>
+                    <select name="prenotazionePedalo" id="pedalo">
                         <option value="NULL"></option>
                         <?php foreach($db->getPedalo() as $pedalo) {
                             ?> <option value="<?php echo $pedalo['codicePedalò']; ?>"><?php echo $pedalo['codicePedalò']; ?></option>
@@ -49,7 +49,7 @@
                 <li>
                 <div id="tavolo-selector" style="display: none;">
                     <label for="numeroPersone">Numero di persone:</label>
-                    <input type="number" name="numeroPersone" id="numeroPersone" min="1" required>
+                    <input type="number" name="numeroPersone" id="numeroPersone" min="1">
                 </div>
                 </li>
                 

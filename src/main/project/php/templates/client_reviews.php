@@ -8,7 +8,7 @@
 <main>
     <?php
     $id = $templateParams['clientId'];
-    $reservations = $templateParams['reservations'];
+    $reservations = $db->getReservationsFromId($id); //$templateParams['reservations'];
     if ($reservations === false) {
         echo '<p>Prenota almeno una volta per accedere alle rewiews</p>';
     } else {

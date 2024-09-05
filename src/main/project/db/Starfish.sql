@@ -105,7 +105,7 @@ CREATE TABLE `RECENSIONI` (
      `codiceStaff` INT UNSIGNED NOT NULL,
      `mese` INT UNSIGNED NOT NULL CHECK (`mese` BETWEEN 1 AND 12),
      CONSTRAINT `ID_RECENSIONI_PK` PRIMARY KEY (`codiceRecensione`),
-     CONSTRAINT `FKR_ID` UNIQUE (`codiceCliente`));      /* TODO: teniamo il fatto che un cliente può fare una sola recensione ?? */
+     CONSTRAINT `FKR_ID` UNIQUE (`codiceCliente`));     /* Un cliente può fare una sola recensione ad uno stesso membro. */
 
 CREATE TABLE `STORICO_RECENSIONI` (
      `mese` INT UNSIGNED NOT NULL CHECK (`mese` BETWEEN 1 AND 12),
@@ -120,10 +120,10 @@ CREATE TABLE `TAVOLI` (
 CREATE TABLE `TIPOLOGIE` (
     `codiceTipologia` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `codicePrenotazione` INT UNSIGNED NOT NULL,
-    `codiceOmbrellone` INT UNSIGNED NULL,
-    `codiceLettino` INT UNSIGNED NULL,
-    `numeroTavolo` INT UNSIGNED NULL,
-    `codicePedalò` INT UNSIGNED NULL,
+    `codiceOmbrellone` INT UNSIGNED DEFAULT NULL,
+    `codiceLettino` INT UNSIGNED DEFAULT NULL,
+    `numeroTavolo` INT UNSIGNED DEFAULT NULL,
+    `codicePedalò` INT UNSIGNED DEFAULT NULL,
     CONSTRAINT `ID_TIPOLOGIE_PK` PRIMARY KEY (`codiceTipologia`),
     CONSTRAINT `FK_TIPOLOGIE_PRENOTAZIONI` FOREIGN KEY (`codicePrenotazione`) REFERENCES `PRENOTAZIONI`(`codicePrenotazione`),
     CONSTRAINT `FK_TIPOLOGIE_OMBRELLONI` FOREIGN KEY (`codiceOmbrellone`) REFERENCES `OMBRELLONI`(`codiceOmbrellone`),
