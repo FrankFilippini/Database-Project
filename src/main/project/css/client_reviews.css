@@ -11,7 +11,7 @@ main > ul > li {
     border-radius: 5px;
     padding: auto;
     margin-bottom: 0.5%;
-    margin-right: 4%;
+    margin-right: 5%;
 }
 
 main > p {
@@ -24,6 +24,7 @@ main > ul > li > form > ul > li {
     text-decoration: none;
     padding-left: 1%;
 }
+
 
 
 

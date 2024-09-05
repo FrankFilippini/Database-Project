@@ -8,7 +8,7 @@
 <main>
     <?php
     $id = $templateParams['clientId'];
-    $reservations = $db->getReservationsFromId($id);
+    $reservations = $templateParams['reservations'];
     if ($reservations === false) {
         echo '<p>Prenota almeno una volta per accedere alle rewiews</p>';
     } else {
@@ -20,7 +20,8 @@
         <?php
             foreach($reservations as $reservation) {
                 ?>
-                <li>Prenotazione: <?php echo $reservation['codicePrenotazione']."\t";?>
+                <li>Prenotazione: <?php echo $reservation['codicePrenotazione']."\t";
+                $_SESSION['codicePrenotazione'] = $reservation['codicePrenotazione'];?>
                 <ul>
                     <li>
                         Staff: <?php 
@@ -32,6 +33,9 @@
                             <ul>
                             <li><label for="codiceStaff">Codice Staff:</label>
                                 <input type="number" id="codiceStaff" name="codiceStaff">
+                            </li>
+                            <li><label for="mese">Mese:</label>
+                                <input type="number" id="mese" name="mese" value="<?php echo $reservation['mese'];?>" min="<?php echo $reservation['mese'];?>" max="<?php echo $reservation['mese'];?>">
                             </li>
                             <li><label for="numeroStelle">Stelle:</label>
                                 <input type="number" id="numeroStelle" name="numeroStelle" max="5" min="1">

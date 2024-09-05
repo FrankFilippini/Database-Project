@@ -6,13 +6,13 @@ $templateParams['css'][] = 'client_reviews.css';
 session_start();
 $clientId = $_SESSION['clientId'];
 $templateParams['clientId'] = $_SESSION['clientId'];
-$templateParams['reservations'][] = $db->getReservationsFromId($clientId);
+$templateParams['reservations'] = $db->getReservationsFromId($clientId);
 
 //TODO Inserire funzione per ricavare il mese
 if(isset($_POST['invia'])) {
-    if($db->insertReview($clientId, $_POST['codiceStaff'], 6, $_POST['numeroStelle'])) {
+    if($db->insertReview($clientId, $_POST['codiceStaff'], $_POST['mese'], $_POST['numeroStelle'])) {
         echo "ok";
-    }
+    } 
 }
 require_once('templates/base.php');
 ?>

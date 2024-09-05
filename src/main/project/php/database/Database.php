@@ -340,6 +340,16 @@ class Database {
         }
     }
 
+    function getMonthFromReservation($id) {
+        if($stmt = $this->conn->prepare('SELECT `mese` FROM `PRENOTAZIONI` WHERE `codicePrenotazione` = ?')) {
+            $stmt->bind_param('i', $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            return $row['mese'];
+        }
+        return null; // or some default value if no result is found
+    }
     function getMembersByDate($date_input) {
         $date_parts = explode('-', $date_input);
         $day = $date_parts[2];
