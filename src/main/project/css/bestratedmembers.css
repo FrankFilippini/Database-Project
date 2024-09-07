@@ -1,0 +1,7 @@
+@import url('global.css');
+@import url('menu.css');
+@import url('title.css');
+
+body > nav > ul > li#best_rated_members {
+    background-color: var(--moonstone-opaque);
+}

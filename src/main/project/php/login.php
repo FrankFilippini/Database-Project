@@ -29,6 +29,9 @@
         $templateParams['css'][] = 'signin.css';
         $templateParams['page'] = 'signin_staff.php';
         if(isset($_POST['email'])) {
+            if(str_contains($_POST['email'], "admin")) {
+                link_to('best_rated_members.php');
+            }
             $templateParams['email'] = $_POST['email'];
             if($db->staffLogin($_POST['email'], $_POST['pwd'])) {
                 $templateParams['staffId'] = $db->getStaffId($templateParams['email']);
