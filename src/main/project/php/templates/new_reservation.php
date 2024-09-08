@@ -15,7 +15,7 @@
                 <li><label for="tipoPrenotazione">Quale servizio desideri prenotare?:</label></li>
                 <li><label for="ombrellone">Seleziona un ombrellone disponibile:</label>
                     <select name="prenotazioneOmbrellone" id="ombrellone">
-                        <option value="NULL"></option>
+                        <option value=""></option>
                         <?php foreach($db->getOmbrelloni() as $ombrellone) {
                             ?> <option value="<?php echo $ombrellone['codiceOmbrellone']; ?>"><?php echo $ombrellone['codiceOmbrellone']; ?></option>
                             <?php
@@ -24,7 +24,7 @@
                 </li>
                 <li><label for="lettino">Seleziona un lettino disponibile:</label>
                     <select name="prenotazioneLettino" id="lettino">
-                        <option value="NULL"></option>
+                        <option value=""></option>
                         <?php foreach($db->getLettini() as $lettino) {
                             ?> <option value="<?php echo $lettino['codiceLettino']; ?>"><?php echo $lettino['codiceLettino']; ?></option>
                             <?php
@@ -33,7 +33,7 @@
                 </li>
                 <li><label for="pedalo">Seleziona un pedalò disponibile:</label>
                     <select name="prenotazionePedalo" id="pedalo">
-                        <option value="NULL"></option>
+                        <option value=""></option>
                         <?php foreach($db->getPedalo() as $pedalo) {
                             ?> <option value="<?php echo $pedalo['codicePedalò']; ?>"><?php echo $pedalo['codicePedalò']; ?></option>
                             <?php

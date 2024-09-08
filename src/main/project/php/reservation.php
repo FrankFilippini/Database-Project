@@ -8,15 +8,34 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($_POST['dataInizio'] <= $_POST['dataFine']) {
             if(isset($_POST['prenotazioneOmbrellone']) || isset($_POST['prenotazionePedalo']) || isset($_POST['prenotazioneLettino'])) {
-                var_dump($_POST);
+              
+                if(isset($_POST['prenotazioneOmbrellone']) && !($_POST['prenotazioneOmbrellone'] === "")) {
+                    $codiceOmbrellone = $_POST['prenotazioneOmbrellone'];
+                } else {
+                    $codiceOmbrellone = NULL;
+                }
+
+                if(isset($_POST['prenotazioneLettino']) && !($_POST['prenotazioneLettino'] === "")) {
+                    $codiceLettino = $_POST['prenotazioneLettino'];
+                } else {
+                    $codiceLettino = NULL;
+                }
+
+                if(isset($_POST['prenotazionePedalo']) && !($_POST['prenotazionePedalo'] === "")) {
+                    $codicePedalo = $_POST['prenotazionePedalo'];
+                } else {
+                    $codicePedalo = NULL;
+                }
+
                 if(isset($_POST['prenotazioneTavolo'])) {
                     $codiceTavolo = $db->insertTavolo($_POST['numeroPersone']);
                 } else {
                     $codiceTavolo = NULL;
                 }
+                var_dump($codicePedalo);
                 $date_arr = explode('-',$_POST['dataInizio']);
                 $month = intval($date_arr[1]);
-                if($db->newReservation($_POST['dataInizio'], $_POST['dataFine'], $_SESSION['clientId'], $month, $_POST['prenotazioneOmbrellone'], $_POST['prenotazioneLettino'], $_POST['prenotazionePedalo'], $codiceTavolo) ) {
+                if($db->newReservation($_POST['dataInizio'], $_POST['dataFine'], $_SESSION['clientId'], $month, $codiceOmbrellone, $codiceLettino, $codicePedalo, $codiceTavolo) ) {
                     echo "Prenotazione avvenuta con successo";
                 }
             }

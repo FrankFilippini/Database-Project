@@ -53,10 +53,10 @@ class Database {
         $prenotazione_id = $this->conn->insert_id; // Get the ID of the newly inserted record
     
         // Then, insert into TIPOLOGIE
-        $sql = "INSERT INTO `TIPOLOGIE`(`codiceOmbrellone`, `codiceLettino`, `numeroTavolo`, `codicePedalò`) 
-            VALUES ($codiceOmbrellone, $codiceLettino, $numeroTavolo, $codicePedalo)";
-
-        if ($this->conn->query($sql) === TRUE) {
+        $stmt2 = $this->conn->prepare('INSERT INTO `TIPOLOGIE`(`codicePrenotazione`, `codiceOmbrellone`, `codiceLettino`, `numeroTavolo`, `codicePedalò`)
+                                        VALUES (?, ?, ?, ?, ?)');
+        $stmt2->bind_param('iiiii', $prenotazione_id, $codiceOmbrellone, $codiceLettino, $numeroTavolo, $codicePedalo);
+        if ($stmt2->execute()) {
             return true;
         } else {
             return false;
