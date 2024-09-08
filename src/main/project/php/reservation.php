@@ -8,6 +8,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($_POST['dataInizio'] <= $_POST['dataFine']) {
             if(isset($_POST['prenotazioneOmbrellone']) || isset($_POST['prenotazionePedalo']) || isset($_POST['prenotazioneLettino'])) {
+                var_dump($_POST);
                 if(isset($_POST['prenotazioneTavolo'])) {
                     $codiceTavolo = $db->insertTavolo($_POST['numeroPersone']);
                 } else {
