@@ -7,7 +7,7 @@
 </nav>
 <main>
     <ul>
-        <?php foreach($db->getBestRatedStaffMembers() as $member) {
+        <?php foreach($db->getWorstRatedStaffMembers() as $member) {
             ?>
             <li><?php echo $member['nome'].' '.$member['cognome'].' '.$member['media_valutazioni']; ?></li>
         <?php
@@ -15,4 +15,3 @@
         ?>
     </ul>
 </main>
-

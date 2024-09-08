@@ -121,12 +121,95 @@ class Database {
 
     //O8
     function getBestRatedStaffMembers() {
-
+        // Query SQL per ottenere i membri dello staff con la migliore valutazione media
+        $sql = "
+            SELECT 
+                M.codiceStaff, 
+                M.nome, 
+                M.cognome,
+                AVG(R.valutazione) AS media_valutazioni
+            FROM 
+                STORICO_RECENSIONI SR
+                JOIN RECENSIONI R ON SR.mese = R.mese
+                JOIN MEMBRI M ON M.codiceStaff = R.codiceStaff
+            GROUP BY 
+                M.codiceStaff, M.nome, M.cognome
+            ORDER BY 
+                media_valutazioni DESC
+            LIMIT 5;
+        ";
+    
+        // Preparare lo statement
+        if ($stmt = $this->conn->prepare($sql)) {
+            // Eseguire lo statement
+            if ($stmt->execute()) {
+                // Recuperare il risultato
+                $result = $stmt->get_result();
+                
+                // Controlla se ci sono risultati
+                if ($result->num_rows > 0) {
+                    // Restituisce un array associativo contenente i dati
+                    return $result->fetch_all(MYSQLI_ASSOC);
+                } else {
+                    // Nessun membro trovato
+                    return [];
+                }
+            } else {
+                // Errore nell'esecuzione della query
+                echo "Errore nell'esecuzione della query: " . $stmt->error;
+                return [];
+            }
+        } else {
+            // Errore nella preparazione della query
+            echo "Errore nella preparazione della query: " . $this->conn->error;
+            return [];
+        }
     }
 
     //O9
     function getWorstRatedStaffMembers() {
-
+        // Query SQL per ottenere i membri dello staff con la migliore valutazione media
+        $sql = "
+            SELECT 
+                M.codiceStaff, 
+                M.nome, 
+                M.cognome,
+                AVG(R.valutazione) AS media_valutazioni
+            FROM 
+                STORICO_RECENSIONI SR
+                JOIN RECENSIONI R ON SR.mese = R.mese
+                JOIN MEMBRI M ON M.codiceStaff = R.codiceStaff
+            GROUP BY
+                M.codiceStaff, M.nome, M.cognome
+            ORDER BY
+                media_valutazioni
+        ";
+    
+        // Preparare lo statement
+        if ($stmt = $this->conn->prepare($sql)) {
+            // Eseguire lo statement
+            if ($stmt->execute()) {
+                // Recuperare il risultato
+                $result = $stmt->get_result();
+                
+                // Controlla se ci sono risultati
+                if ($result->num_rows > 0) {
+                    // Restituisce un array associativo contenente i dati
+                    return $result->fetch_all(MYSQLI_ASSOC);
+                } else {
+                    // Nessun membro trovato
+                    return [];
+                }
+            } else {
+                // Errore nell'esecuzione della query
+                echo "Errore nell'esecuzione della query: " . $stmt->error;
+                return [];
+            }
+        } else {
+            // Errore nella preparazione della query
+            echo "Errore nella preparazione della query: " . $this->conn->error;
+            return [];
+        }
     }
 
     //O10
@@ -421,6 +504,23 @@ class Database {
         $stmt->close();
       
         return $members;
+    }
+
+    function adminLogin($email, $password) {
+        if ($stmt = $this->conn->prepare('SELECT `email`, `password`
+                                            FROM `AMMINISTRATORI`
+                                            WHERE `email` = ?;'))
+        {
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($email, $password);
+            $stmt->fetch();
+            if ($stmt->num_rows == 1) {
+                return true;
+            }
+        }
+        return false;        
     }
 }
 ?>
