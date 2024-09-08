@@ -4,29 +4,32 @@ USE `Starfish`;
 INSERT INTO `AMMINISTRATORI`(`codiceAmministratore`, `CF`, `nome`, `cognome`, `email`, `password`) 
 VALUES (0,'MRORSI05X31C504K','Mario','Rossi','mario.rossi@admin.starfish.com','test');
 
--- AGENDA DEI TURNI
-INSERT INTO `AGENDE_DEI_TURNI`(`mese`, `codiceAmministratore`)
-VALUES (6, 0);
-
-INSERT INTO `AGENDE_DEI_TURNI`(`mese`, `codiceAmministratore`)
-VALUES (8, 0);
-
 -- TURNO DI LAVORO
 INSERT INTO `TURNI_DI_LAVORO`(`oraInizio`, `oraFine`) 
-VALUES (TIME '08:00:00', TIME '13:00:00');
+VALUES (TIME '08:00:00', TIME '12:00:00');
 
 INSERT INTO `TURNI_DI_LAVORO`(`oraInizio`, `oraFine`) 
-VALUES (TIME '08:00:00', TIME '13:00:00');
+VALUES (TIME '12:00:00', TIME '16:00:00');
+
+INSERT INTO `TURNI_DI_LAVORO`(`oraInizio`, `oraFine`) 
+VALUES (TIME '16:00:00', TIME '20:00:00');
+
+INSERT INTO `TURNI_DI_LAVORO`(`oraInizio`, `oraFine`) 
+VALUES (TIME '20:00:00', TIME '24:00:00');
 
 -- MEMBRI
-INSERT INTO `MEMBRI`(`CF`,`nome`, `cognome`, `email`, `password`, `idTurno`) 
-VALUES ('SLVSPS02R24E123W', 'Salvatore','Esposito','salvatore.esposito@starfish.com','test', 1);
+INSERT INTO `MEMBRI`(`CF`,`nome`, `cognome`, `email`, `password`) 
+VALUES ('SLVSPS02R24E123W', 'Salvatore','Esposito','salvatore.esposito@starfish.com','test');
 
-INSERT INTO `MEMBRI`(`CF`,`nome`, `cognome`, `email`, `password`, `giorno`, `idTurno`) 
-VALUES ('DVDGGN04F30D704Q', 'David','Goggins','david.goggins@starfish.com','test', 2);
+INSERT INTO `MEMBRI`(`CF`,`nome`, `cognome`, `email`, `password`) 
+VALUES ('DVDGGN04F30D704Q', 'David','Goggins','david.goggins@starfish.com','test');
 
-INSERT INTO `MEMBRI`(`CF`,`nome`, `cognome`, `email`, `password`, `idTurno`) 
-VALUES ('ANJD04F30D704Q', 'Alex','West','alex.west@starfish.com','test', 1);
+INSERT INTO `MEMBRI`(`CF`,`nome`, `cognome`, `email`, `password`) 
+VALUES ('ANJD04F30D704Q', 'Alex','West','alex.west@starfish.com','test');
+
+-- AGENDA DEI TURNI
+INSERT INTO `AGENDE_DEI_TURNI`(`codiceStaff`, `idTurno`, `dataTurno`, `codiceAmministratore`)
+VALUES (1,1, '2024-06-24',0);
 
 -- CLIENTE
 INSERT INTO `CLIENTI`(`numeroTelefono`, `CF`, `nome`, `cognome`, `email`, `password`)

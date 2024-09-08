@@ -135,8 +135,57 @@ class Database {
     }
 
     //O11
-    function getBestWorker() {
 
+    function getBestWorker($conn) {
+        // La query SQL per trovare il membro che ha lavorato di più nel mese di Giugno 2024
+        $sql = "
+            SELECT 
+                M.nome, 
+                M.cognome, 
+                SUM(TIMESTAMPDIFF(MINUTE, T.oraInizio, T.oraFine)) AS minuti_lavorati 
+            FROM 
+                AGENDE_DEI_TURNI A 
+                JOIN MEMBRI M ON A.codiceStaff = M.codiceStaff 
+                JOIN TURNI_DI_LAVORO T ON A.idTurno = T.idTurno 
+            WHERE 
+                A.dataTurno BETWEEN ? AND ? 
+            GROUP BY 
+                M.codiceStaff, M.nome, M.cognome 
+            ORDER BY 
+                minuti_lavorati DESC 
+            LIMIT 1;
+        ";
+    
+        // Preparare lo statement
+        if ($stmt = $conn->prepare($sql)) {
+            // Bind dei parametri per le date di inizio e fine
+            $startDate = '2024-06-01';
+            $endDate = '2024-06-30';
+            $stmt->bind_param("ss", $startDate, $endDate);
+    
+            // Eseguire lo statement
+            if ($stmt->execute()) {
+                // Recuperare il risultato
+                $result = $stmt->get_result();
+                
+                // Controlla se ci sono risultati
+                if ($result->num_rows > 0) {
+                    // Restituisce i dati del miglior lavoratore
+                    return $result->fetch_assoc();
+                } else {
+                    // Nessun lavoratore trovato
+                    return null;
+                }
+            } else {
+                // Errore nell'esecuzione della query
+                echo "Errore nell'esecuzione della query: " . $stmt->error;
+                return null;
+            }
+        } else {
+            // Errore nella preparazione della query
+            echo "Errore nella preparazione della query: " . $conn->error;
+            return null;
+        }
     }
 
     //FUNZIONI DI APPOGGIO
