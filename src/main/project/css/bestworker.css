@@ -1,0 +1,7 @@
+@import url('global.css');
+@import url('menu.css');
+@import url('title.css');
+
+body > nav > ul > li#best_worker {
+    background-color: var(--moonstone-opaque);
+}

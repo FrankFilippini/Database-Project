@@ -219,7 +219,7 @@ class Database {
 
     //O11
 
-    function getBestWorker($conn) {
+    function getBestWorker() {
         // La query SQL per trovare il membro che ha lavorato di più nel mese di Giugno 2024
         $sql = "
             SELECT 
@@ -231,7 +231,7 @@ class Database {
                 JOIN MEMBRI M ON A.codiceStaff = M.codiceStaff 
                 JOIN TURNI_DI_LAVORO T ON A.idTurno = T.idTurno 
             WHERE 
-                A.dataTurno BETWEEN ? AND ? 
+                A.dataTurno BETWEEN ? AND ?
             GROUP BY 
                 M.codiceStaff, M.nome, M.cognome 
             ORDER BY 
@@ -240,7 +240,7 @@ class Database {
         ";
     
         // Preparare lo statement
-        if ($stmt = $conn->prepare($sql)) {
+        if ($stmt = $this->conn->prepare($sql)) {
             // Bind dei parametri per le date di inizio e fine
             $startDate = '2024-06-01';
             $endDate = '2024-06-30';
@@ -266,7 +266,7 @@ class Database {
             }
         } else {
             // Errore nella preparazione della query
-            echo "Errore nella preparazione della query: " . $conn->error;
+            echo "Errore nella preparazione della query: " . $this->conn->error;
             return null;
         }
     }
