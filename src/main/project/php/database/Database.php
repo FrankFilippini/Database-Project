@@ -124,18 +124,18 @@ class Database {
         // Query SQL per ottenere i membri dello staff con la migliore valutazione media
         $sql = "
             SELECT 
-                M.codiceStaff, 
-                M.nome, 
-                M.cognome,
-                AVG(R.valutazione) AS media_valutazioni
+                M.`codiceStaff`, 
+                M.`nome`, 
+                M.`cognome`,
+                AVG(R.`valutazione`) AS `media_valutazioni`
             FROM 
-                STORICO_RECENSIONI SR
-                JOIN RECENSIONI R ON SR.mese = R.mese
-                JOIN MEMBRI M ON M.codiceStaff = R.codiceStaff
+                `STORICO_RECENSIONI` SR
+                JOIN `RECENSIONI` R ON SR.`mese` = R.`mese`
+                JOIN `MEMBRI` M ON M.`codiceStaff` = R.`codiceStaff`
             GROUP BY 
-                M.codiceStaff, M.nome, M.cognome
+                M.`codiceStaff`, M.`nome`, M.`cognome`
             ORDER BY 
-                media_valutazioni DESC
+                `media_valutazioni` DESC
             LIMIT 5;
         ";
     
@@ -171,18 +171,18 @@ class Database {
         // Query SQL per ottenere i membri dello staff con la migliore valutazione media
         $sql = "
             SELECT 
-                M.codiceStaff, 
-                M.nome, 
-                M.cognome,
-                AVG(R.valutazione) AS media_valutazioni
+                M.`codiceStaff`, 
+                M.`nome`, 
+                M.`cognome`,
+                AVG(R.`valutazione`) AS `media_valutazioni`
             FROM 
-                STORICO_RECENSIONI SR
-                JOIN RECENSIONI R ON SR.mese = R.mese
-                JOIN MEMBRI M ON M.codiceStaff = R.codiceStaff
+                `STORICO_RECENSIONI` SR
+                JOIN `RECENSIONI` R ON SR.`mese` = R.`mese`
+                JOIN `MEMBRI` M ON M.`codiceStaff` = R.`codiceStaff`
             GROUP BY
-                M.codiceStaff, M.nome, M.cognome
+                M.`codiceStaff`, M.`nome`, M.`cognome`
             ORDER BY
-                media_valutazioni
+                `media_valutazioni`
         ";
     
         // Preparare lo statement
@@ -222,20 +222,17 @@ class Database {
     function getBestWorker() {
         // La query SQL per trovare il membro che ha lavorato di più nel mese di Giugno 2024
         $sql = "
-            SELECT 
-                M.nome, 
-                M.cognome, 
-                SUM(TIMESTAMPDIFF(MINUTE, T.oraInizio, T.oraFine)) AS minuti_lavorati 
+            SELECT M.`nome`, M.`cognome`, SUM(TIMESTAMPDIFF(MINUTE, T.`oraInizio`, T.`oraFine`)) AS `minuti_lavorati` 
             FROM 
-                AGENDE_DEI_TURNI A 
-                JOIN MEMBRI M ON A.codiceStaff = M.codiceStaff 
-                JOIN TURNI_DI_LAVORO T ON A.idTurno = T.idTurno 
+                `AGENDE_DEI_TURNI` A 
+                JOIN `MEMBRI` M ON A.`codiceStaff` = M.`codiceStaff` 
+                JOIN `TURNI_DI_LAVORO` T ON A.`idTurno` = T.`idTurno` 
             WHERE 
-                A.dataTurno BETWEEN ? AND ?
+                A.`dataTurno` BETWEEN ? AND ?
             GROUP BY 
-                M.codiceStaff, M.nome, M.cognome 
+                M.`codiceStaff`, M.`nome`, M.`cognome` 
             ORDER BY 
-                minuti_lavorati DESC 
+                `minuti_lavorati` DESC 
             LIMIT 1;
         ";
     

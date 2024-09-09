@@ -7,12 +7,8 @@
 </nav>
 <main>
     <ul>
-        <?php foreach($db->getBestWorker() as $member) {
-            ?>
+        <?php $member = $db->getBestWorker(); ?>
             <li><?php echo $member['nome'].' '.$member['cognome'].' '.$member['minuti_lavorati']; ?></li>
-        <?php
-        }
-        ?>
     </ul>
 </main>
 
