@@ -32,7 +32,6 @@
                 } else {
                     $codiceTavolo = NULL;
                 }
-                var_dump($codicePedalo);
                 $date_arr = explode('-',$_POST['dataInizio']);
                 $month = intval($date_arr[1]);
                 if($db->newReservation($_POST['dataInizio'], $_POST['dataFine'], $_SESSION['clientId'], $month, $codiceOmbrellone, $codiceLettino, $codicePedalo, $codiceTavolo) ) {

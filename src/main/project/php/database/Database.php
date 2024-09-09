@@ -213,8 +213,56 @@ class Database {
     }
 
     //O10
-    function getBestClients() {
-
+    function getBestClients($mese) {
+        // La query SQL per trovare i migliori clienti in base ai giorni prenotati nel mese specificato
+        $sql = "
+            SELECT 
+                P.codiceCliente,
+                SUM(DATEDIFF(P.dataFine, P.dataInizio)) AS giorni_prenotati 
+            FROM 
+                PRENOTAZIONI P 
+                JOIN LISTINI L ON L.mese BETWEEN MONTH(P.dataInizio) AND MONTH(P.dataFine)
+            WHERE 
+                L.mese = ? 
+            GROUP BY 
+                P.codiceCliente 
+            ORDER BY 
+                giorni_prenotati DESC 
+            LIMIT 5;
+        ";
+    
+        // Preparare lo statement
+        if ($stmt = $this->conn->prepare($sql)) {
+            // Bind del parametro 'mese'
+            $stmt->bind_param('i', $mese);
+    
+            // Eseguire lo statement
+            if ($stmt->execute()) {
+                // Recuperare il risultato
+                $result = $stmt->get_result();
+                
+                // Controlla se ci sono risultati
+                if ($result->num_rows > 0) {
+                    // Restituisce un array associativo contenente i dati
+                    $bestClients = $result->fetch_all(MYSQLI_ASSOC);
+                    $stmt->close(); // Chiudere lo statement
+                    return $bestClients;
+                } else {
+                    // Nessun cliente trovato
+                    $stmt->close(); // Chiudere lo statement
+                    return [];
+                }
+            } else {
+                // Errore nell'esecuzione della query
+                echo "Errore nell'esecuzione della query: " . $stmt->error;
+                $stmt->close(); // Chiudere lo statement
+                return [];
+            }
+        } else {
+            // Errore nella preparazione della query
+            echo "Errore nella preparazione della query: " . $this->conn->error;
+            return [];
+        }
     }
 
     //O11
