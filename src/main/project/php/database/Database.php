@@ -320,7 +320,7 @@ class Database {
     function clientLogin($email, $password) {
         if ($stmt = $this->conn->prepare('SELECT `email`, `password`
                                             FROM `CLIENTI`
-                                            WHERE `email` = ?;')) {
+                                            WHERE `email` = ? AND `password` = ?;')) {
             $stmt->bind_param('s', $email);
             $stmt->execute();
             $stmt->store_result();
@@ -371,7 +371,7 @@ class Database {
     function staffLogin($email, $password) {
         if ($stmt = $this->conn->prepare('SELECT `email`, `password`
                                             FROM `MEMBRI`
-                                            WHERE `email` = ?;'))
+                                            WHERE `email` = ? AND `password` = ?;'))
         {
             $stmt->bind_param('s', $email);
             $stmt->execute();
@@ -554,7 +554,7 @@ class Database {
     function adminLogin($email, $password) {
         if ($stmt = $this->conn->prepare('SELECT `email`, `password`
                                             FROM `AMMINISTRATORI`
-                                            WHERE `email` = ?;'))
+                                            WHERE `email` = ? AND `password` = ?;'))
         {
             $stmt->bind_param('s', $email);
             $stmt->execute();
