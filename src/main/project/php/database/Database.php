@@ -321,7 +321,7 @@ class Database {
         if ($stmt = $this->conn->prepare('SELECT `email`, `password`
                                             FROM `CLIENTI`
                                             WHERE `email` = ? AND `password` = ?;')) {
-            $stmt->bind_param('s', $email);
+            $stmt->bind_param('ss', $email,$password);
             $stmt->execute();
             $stmt->store_result();
             $stmt->bind_result($email, $password);
@@ -373,7 +373,7 @@ class Database {
                                             FROM `MEMBRI`
                                             WHERE `email` = ? AND `password` = ?;'))
         {
-            $stmt->bind_param('s', $email);
+            $stmt->bind_param('ss', $email,$password);
             $stmt->execute();
             $stmt->store_result();
             $stmt->bind_result($email, $password);
@@ -528,15 +528,13 @@ class Database {
         return null; // or some default value if no result is found
     }
     function getMembersByDate($date_input) {
-        $date_parts = explode('-', $date_input);
-        $day = $date_parts[2];
-        $month = $date_parts[1];
       
-        $stmt = $this->conn->prepare("SELECT * 
-                                 FROM MEMBRI 
-                                 WHERE giorno = ? AND mese = ?");
+        $stmt = $this->conn->prepare("SELECT A.`codiceStaff`, M.`nome`, M.`cognome`
+                                 FROM `AGENDE_DEI_TURNI` A
+                                 JOIN `MEMBRI` M ON A.`codiceStaff` = M.`codiceStaff`
+                                 WHERE A.`dataTurno` = ?");
       
-        $stmt->bind_param("ii", $day, $month);
+        $stmt->bind_param("s", $date_input);
       
         $stmt->execute();
       
@@ -556,7 +554,7 @@ class Database {
                                             FROM `AMMINISTRATORI`
                                             WHERE `email` = ? AND `password` = ?;'))
         {
-            $stmt->bind_param('s', $email);
+            $stmt->bind_param('ss', $email,$password);
             $stmt->execute();
             $stmt->store_result();
             $stmt->bind_result($email, $password);
