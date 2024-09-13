@@ -1,21 +1,9 @@
--- *********************************************
--- * Standard SQL generation                   
--- *--------------------------------------------
--- * DB-MAIN version: 11.0.2              
--- * Generator date: Sep 14 2021              
--- * Generation date: Mon Aug 19 10:11:13 2024 
--- * LUN file: C:\Users\Gemma\Documents\BASI DI DATI\ELABORATO\Sito di uno stabilimento balneare.lun 
--- * Schema: schema relazionale finale/1 
--- ********************************************* 
-
-
 -- Database Section
 -- ________________
 
 DROP DATABASE IF EXISTS `Starfish`;
 CREATE DATABASE `Starfish` DEFAULT CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin';
 USE `Starfish`;
-
 
 -- Tables Section
 -- ________________
@@ -131,12 +119,6 @@ CREATE TABLE `TURNI_DI_LAVORO` (
      `oraFine` TIME NOT NULL,
      CONSTRAINT `ID_TURNI_DI_LAVORO_PK` PRIMARY KEY (`idTurno`));
 
-CREATE TABLE VISUALIZZAZIONI (
-     `codicePrenotazione` INT UNSIGNED NOT NULL,
-     `codiceStaff` INT UNSIGNED NOT NULL,
-     CONSTRAINT `ID_VISUALIZZAZIONI_PK` PRIMARY KEY (`codicePrenotazione`, `codiceStaff`));
-
-
 -- CONSTRAINTs Section
 -- ___________________ 
 
@@ -192,10 +174,6 @@ ALTER TABLE `TIPOLOGIE`
 ADD CONSTRAINT `FK_TIPOLOGIE_PRENOTAZIONI`
 FOREIGN KEY (`codicePrenotazione`) REFERENCES `PRENOTAZIONI`(`codicePrenotazione`);
 
-ALTER TABLE `VISUALIZZAZIONI`
-ADD CONSTRAINT `FK_VISUALIZZAZIONI_PRENOTAZIONI`
-FOREIGN KEY (`codicePrenotazione`) REFERENCES `PRENOTAZIONI`(`codicePrenotazione`); 
-
 ALTER TABLE `PRENOTAZIONI` ADD CONSTRAINT `MEMORIZZAZIONE_FK`
      FOREIGN KEY (`mese`)
      REFERENCES `LISTINI`(`mese`);
@@ -215,15 +193,6 @@ ALTER TABLE `STORICO_RECENSIONI` ADD CONSTRAINT `OSSERVAZIONE_FK`
 ALTER TABLE `TIPOLOGIE`
 ADD CONSTRAINT `FK_TIPOLOGIE_TAVOLI`
 FOREIGN KEY (`numeroTavolo`) REFERENCES `TAVOLI`(`numeroTavolo`); 
-
-ALTER TABLE `VISUALIZZAZIONI` ADD CONSTRAINT `VIS_MEM_FK`
-     FOREIGN KEY (`codiceStaff`)
-     REFERENCES `MEMBRI`(`codiceStaff`);
-
-ALTER TABLE `VISUALIZZAZIONI` ADD CONSTRAINT `VIS_PRE_FK`
-     FOREIGN KEY (`codicePrenotazione`)
-     REFERENCES `PRENOTAZIONI`(`codicePrenotazione`);
-
 
 -- Index Section
 -- _____________ 
@@ -297,9 +266,3 @@ CREATE UNIQUE INDEX `ID_TAVOLO_IND`
 -- TIPOLOGIE
 CREATE UNIQUE INDEX `ID_TIPO_IND`
      ON `TIPOLOGIE` (`codiceTipologia`);
-
--- VISUALIZZAZIONI
-CREATE INDEX `FKVIS_PRE_IND`
-     ON `VISUALIZZAZIONI` (`codicePrenotazione`);
-
-
